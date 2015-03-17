@@ -75,101 +75,6 @@
                 "type": "png"
             },
             {
-                "file": "images/chinese-t2-oct.png",
-                "name": "IMAGE_COCT",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-sep.png",
-                "name": "IMAGE_CSEP",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-aug.png",
-                "name": "IMAGE_CAUG",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-jul.png",
-                "name": "IMAGE_CJUL",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-jun.png",
-                "name": "IMAGE_CJUN",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-may.png",
-                "name": "IMAGE_CMAY",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-apr.png",
-                "name": "IMAGE_CAPR",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-mar.png",
-                "name": "IMAGE_CMAR",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-feb.png",
-                "name": "IMAGE_CFEB",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-jan.png",
-                "name": "IMAGE_CJAN",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-nov.png",
-                "name": "IMAGE_CNOV",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-dec.png",
-                "name": "IMAGE_CDEC",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-sat.png",
-                "name": "IMAGE_DAY_NAME_CH_SAT",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-fri.png",
-                "name": "IMAGE_DAY_NAME_CH_FRI",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-thu.png",
-                "name": "IMAGE_DAY_NAME_CH_THU",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-wed.png",
-                "name": "IMAGE_DAY_NAME_CH_WED",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-tue.png",
-                "name": "IMAGE_DAY_NAME_CH_TUE",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-mon.png",
-                "name": "IMAGE_DAY_NAME_CH_MON",
-                "type": "png"
-            },
-            {
-                "file": "images/chinese-t2-sun.png",
-                "name": "IMAGE_DAY_NAME_CH_SUN",
-                "type": "png"
-            },
-            {
                 "file": "images/icon_battery_charge (4).png",
                 "name": "IMAGE_BATT_CHARGING",
                 "type": "png"
@@ -181,639 +86,734 @@
                 "type": "png"
             },
             {
-                "file": "images/it-t2-dec.png",
-                "name": "IMAGE_IDEC",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-nov.png",
-                "name": "IMAGE_INOV",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-oct.png",
-                "name": "IMAGE_IOCT",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-sep.png",
-                "name": "IMAGE_ISEP",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-aug.png",
-                "name": "IMAGE_IAUG",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-jul.png",
-                "name": "IMAGE_IJUL",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-jun.png",
-                "name": "IMAGE_IJUN",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-may.png",
-                "name": "IMAGE_IMAY",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-apr.png",
-                "name": "IMAGE_IAPR",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-mar.png",
-                "name": "IMAGE_IMAR",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-feb.png",
-                "name": "IMAGE_IFEB",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-jan.png",
-                "name": "IMAGE_IJAN",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-sat.png",
-                "name": "IMAGE_DAY_NAME_IT_SAT",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-fri.png",
-                "name": "IMAGE_DAY_NAME_IT_FRI",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-thu.png",
-                "name": "IMAGE_DAY_NAME_IT_THU",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-wed.png",
-                "name": "IMAGE_DAY_NAME_IT_WED",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-tue.png",
-                "name": "IMAGE_DAY_NAME_IT_TUE",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-mon.png",
-                "name": "IMAGE_DAY_NAME_IT_MON",
-                "type": "png"
-            },
-            {
-                "file": "images/it-t2-sun.png",
-                "name": "IMAGE_DAY_NAME_IT_SUN",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-dec.png",
-                "name": "IMAGE_FDEC",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-nov.png",
-                "name": "IMAGE_FNOV",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-oct.png",
-                "name": "IMAGE_FOCT",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-sep.png",
-                "name": "IMAGE_FSEP",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-aug.png",
-                "name": "IMAGE_FAUG",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-jul.png",
-                "name": "IMAGE_FJUL",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-jun.png",
-                "name": "IMAGE_FJUN",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-may.png",
-                "name": "IMAGE_FMAY",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-apr.png",
-                "name": "IMAGE_FAPR",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-mar.png",
-                "name": "IMAGE_FMAR",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-feb.png",
-                "name": "IMAGE_FFEB",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-jan.png",
-                "name": "IMAGE_FJAN",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-mon.png",
-                "name": "IMAGE_DAY_NAME_FR_MON",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-tue.png",
-                "name": "IMAGE_DAY_NAME_FR_TUE",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-wed.png",
-                "name": "IMAGE_DAY_NAME_FR_WED",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-thu.png",
-                "name": "IMAGE_DAY_NAME_FR_THU",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-fri.png",
-                "name": "IMAGE_DAY_NAME_FR_FRI",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-sat.png",
-                "name": "IMAGE_DAY_NAME_FR_SAT",
-                "type": "png"
-            },
-            {
-                "file": "images/french-t2-sun.png",
-                "name": "IMAGE_DAY_NAME_FR_SUN",
-                "type": "png"
-            },
-            {
-                "file": "images/russian-dec.png",
-                "name": "IMAGE_RDEC",
-                "type": "png"
-            },
-            {
-                "file": "images/russian-nov.png",
-                "name": "IMAGE_RNOV",
-                "type": "png"
-            },
-            {
-                "file": "images/russian-oct.png",
-                "name": "IMAGE_ROCT",
-                "type": "png"
-            },
-            {
-                "file": "images/Russian-sep.png",
-                "name": "IMAGE_RSEP",
-                "type": "png"
-            },
-            {
-                "file": "images/russian-aug.png",
-                "name": "IMAGE_RAUG",
-                "type": "png"
-            },
-            {
-                "file": "images/russian-jul.png",
-                "name": "IMAGE_RJUL",
-                "type": "png"
-            },
-            {
-                "file": "images/russian-jun.png",
-                "name": "IMAGE_RJUN",
-                "type": "png"
-            },
-            {
-                "file": "images/russian-may.png",
-                "name": "IMAGE_RMAY",
-                "type": "png"
-            },
-            {
-                "file": "images/russian-apr.png",
-                "name": "IMAGE_RAPR",
-                "type": "png"
-            },
-            {
-                "file": "images/rusSian-mar.png",
-                "name": "IMAGE_RMAR",
-                "type": "png"
-            },
-            {
-                "file": "images/russian-feb.png",
-                "name": "IMAGE_RFEB",
-                "type": "png"
-            },
-            {
-                "file": "images/russian-jan.png",
-                "name": "IMAGE_RJAN",
-                "type": "png"
-            },
-            {
-                "file": "images/german-dec.png",
-                "name": "IMAGE_GDEC",
-                "type": "png"
-            },
-            {
-                "file": "images/german-nov.png",
-                "name": "IMAGE_GNOV",
-                "type": "png"
-            },
-            {
-                "file": "images/german-oct.png",
-                "name": "IMAGE_GOCT",
-                "type": "png"
-            },
-            {
-                "file": "images/german-sep.png",
-                "name": "IMAGE_GSEP",
-                "type": "png"
-            },
-            {
-                "file": "images/german-aug.png",
-                "name": "IMAGE_GAUG",
-                "type": "png"
-            },
-            {
-                "file": "images/german-jul.png",
-                "name": "IMAGE_GJUL",
-                "type": "png"
-            },
-            {
-                "file": "images/german-jun.png",
-                "name": "IMAGE_GJUN",
-                "type": "png"
-            },
-            {
-                "file": "images/GERMAN-MAY.png",
-                "name": "IMAGE_GMAY",
-                "type": "png"
-            },
-            {
-                "file": "images/GERMAN-APR.png",
-                "name": "IMAGE_GAPR",
-                "type": "png"
-            },
-            {
-                "file": "images/GERMAN-MAR.png",
-                "name": "IMAGE_GMAR",
-                "type": "png"
-            },
-            {
-                "file": "images/GERMAN-FEB.png",
-                "name": "IMAGE_GFEB",
-                "type": "png"
-            },
-            {
-                "file": "images/GERMAN-JAN.png",
-                "name": "IMAGE_GJAN",
-                "type": "png"
-            },
-            {
-                "file": "images/russian-sat.png",
-                "name": "IMAGE_DAY_NAME_RUS_SAT",
-                "type": "png"
-            },
-            {
-                "file": "images/russian-fri.png",
-                "name": "IMAGE_DAY_NAME_RUS_FRI",
-                "type": "png"
-            },
-            {
-                "file": "images/russian-thu.png",
-                "name": "IMAGE_DAY_NAME_RUS_THU",
-                "type": "png"
-            },
-            {
-                "file": "images/russian-wed.png",
-                "name": "IMAGE_DAY_NAME_RUS_WED",
-                "type": "png"
-            },
-            {
-                "file": "images/russian-tue.png",
-                "name": "IMAGE_DAY_NAME_RUS_TUE",
-                "type": "png"
-            },
-            {
-                "file": "images/russian-mon.png",
-                "name": "IMAGE_DAY_NAME_RUS_MON",
-                "type": "png"
-            },
-            {
-                "file": "images/russian-sun.png",
-                "name": "IMAGE_DAY_NAME_RUS_SUN",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-SATURDAY german.png",
-                "name": "IMAGE_DAY_NAME_SAMSTAG",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-FRIDAY german.png",
-                "name": "IMAGE_DAY_NAME_FREITAG",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-THURSDAY german.png",
-                "name": "IMAGE_DAY_NAME_DONNERSTAG",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-wednesday GERMAN.png",
-                "name": "IMAGE_DAY_NAME_MITTWOCH",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-tuesday german.png",
-                "name": "IMAGE_DAY_NAME_DIENSTAG",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-monday german.png",
-                "name": "IMAGE_DAY_NAME_MONTAG",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-SUNDAY german.png",
-                "name": "IMAGE_DAY_NAME_SONNTAG",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-december.png",
-                "name": "IMAGE_DEC",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-november.png",
-                "name": "IMAGE_NOV",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-october.png",
-                "name": "IMAGE_OCT",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-september.png",
-                "name": "IMAGE_SEP",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-august.png",
-                "name": "IMAGE_AUG",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-july.png",
-                "name": "IMAGE_JUL",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-june.png",
-                "name": "IMAGE_JUN",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-may.png",
-                "name": "IMAGE_MAY",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-april.png",
-                "name": "IMAGE_APR",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-march.png",
-                "name": "IMAGE_MAR",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-february.png",
-                "name": "IMAGE_FEB",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-january.png",
-                "name": "IMAGE_JAN",
-                "type": "png"
-            },
-            {
-                "file": "images/movie-rotated-0.png",
-                "name": "IMAGE_DATENUM_0",
-                "type": "png"
-            },
-            {
-                "file": "images/movie-rotated-9.png",
-                "name": "IMAGE_DATENUM_9",
-                "type": "png"
-            },
-            {
-                "file": "images/movie-rotated-8.png",
-                "name": "IMAGE_DATENUM_8",
-                "type": "png"
-            },
-            {
-                "file": "images/movie-rotated-7.png",
-                "name": "IMAGE_DATENUM_7",
-                "type": "png"
-            },
-            {
-                "file": "images/movie-rotated-6.png",
-                "name": "IMAGE_DATENUM_6",
-                "type": "png"
-            },
-            {
-                "file": "images/movie-rotated-5.png",
-                "name": "IMAGE_DATENUM_5",
-                "type": "png"
-            },
-            {
-                "file": "images/movie-rotated-3.png",
-                "name": "IMAGE_DATENUM_3",
-                "type": "png"
-            },
-            {
-                "file": "images/movie-rotated-4.png",
-                "name": "IMAGE_DATENUM_4",
-                "type": "png"
-            },
-            {
-                "file": "images/movie-rotated-1.png",
-                "name": "IMAGE_DATENUM_1",
-                "type": "png"
-            },
-            {
-                "file": "images/movie-rotated-2.png",
-                "name": "IMAGE_DATENUM_2",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-saturday.png",
-                "name": "IMAGE_DAY_NAME_SAT",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-friday.png",
-                "name": "IMAGE_DAY_NAME_FRI",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-wednesday.png",
-                "name": "IMAGE_DAY_NAME_WED",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-tuesday.png",
-                "name": "IMAGE_DAY_NAME_TUE",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-monday.png",
-                "name": "IMAGE_DAY_NAME_MON",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-thursday.png",
-                "name": "IMAGE_DAY_NAME_THU",
-                "type": "png"
-            },
-            {
-                "file": "images/visitor-sunday.png",
-                "name": "IMAGE_DAY_NAME_SUN",
-                "type": "png"
-            },
-            {
-                "file": "images/tiny_percent.png",
-                "name": "IMAGE_TINY_PERCENT",
-                "type": "png"
-            },
-            {
-                "file": "images/tiny_9.png",
-                "name": "IMAGE_TINY_9",
-                "type": "png"
-            },
-            {
-                "file": "images/tiny_8.png",
-                "name": "IMAGE_TINY_8",
-                "type": "png"
-            },
-            {
-                "file": "images/tiny_7.png",
-                "name": "IMAGE_TINY_7",
-                "type": "png"
-            },
-            {
-                "file": "images/tiny_6.png",
-                "name": "IMAGE_TINY_6",
-                "type": "png"
-            },
-            {
-                "file": "images/tiny_5.png",
-                "name": "IMAGE_TINY_5",
-                "type": "png"
-            },
-            {
-                "file": "images/tiny_4.png",
-                "name": "IMAGE_TINY_4",
-                "type": "png"
-            },
-            {
-                "file": "images/tiny_3.png",
-                "name": "IMAGE_TINY_3",
-                "type": "png"
-            },
-            {
-                "file": "images/tiny_2.png",
-                "name": "IMAGE_TINY_2",
-                "type": "png"
-            },
-            {
-                "file": "images/tiny_1.png",
-                "name": "IMAGE_TINY_1",
-                "type": "png"
-            },
-            {
-                "file": "images/tiny_0.png",
-                "name": "IMAGE_TINY_0",
-                "type": "png"
-            },
-            {
                 "file": "images/icon_battery.png",
                 "name": "IMAGE_BATTERY",
                 "type": "png"
             },
             {
-                "file": "images/num_9.png",
+                "file": "data/chinese-t2-oct.pbt",
+                "name": "IMAGE_COCT",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-sep.pbt",
+                "name": "IMAGE_CSEP",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-aug.pbt",
+                "name": "IMAGE_CAUG",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-jul.pbt",
+                "name": "IMAGE_CJUL",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-jun.pbt",
+                "name": "IMAGE_CJUN",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-may.pbt",
+                "name": "IMAGE_CMAY",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-apr.pbt",
+                "name": "IMAGE_CAPR",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-mar.pbt",
+                "name": "IMAGE_CMAR",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-feb.pbt",
+                "name": "IMAGE_CFEB",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-jan.pbt",
+                "name": "IMAGE_CJAN",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-nov.pbt",
+                "name": "IMAGE_CNOV",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-dec.pbt",
+                "name": "IMAGE_CDEC",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-sat.pbt",
+                "name": "IMAGE_DAY_NAME_CH_SAT",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-fri.pbt",
+                "name": "IMAGE_DAY_NAME_CH_FRI",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-thu.pbt",
+                "name": "IMAGE_DAY_NAME_CH_THU",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-wed.pbt",
+                "name": "IMAGE_DAY_NAME_CH_WED",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-tue.pbt",
+                "name": "IMAGE_DAY_NAME_CH_TUE",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-mon.pbt",
+                "name": "IMAGE_DAY_NAME_CH_MON",
+                "type": "raw"
+            },
+            {
+                "file": "data/chinese-t2-sun.pbt",
+                "name": "IMAGE_DAY_NAME_CH_SUN",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-dec.pbt",
+                "name": "IMAGE_IDEC",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-nov.pbt",
+                "name": "IMAGE_INOV",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-oct.pbt",
+                "name": "IMAGE_IOCT",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-sep.pbt",
+                "name": "IMAGE_ISEP",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-aug.pbt",
+                "name": "IMAGE_IAUG",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-jul.pbt",
+                "name": "IMAGE_IJUL",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-jun.pbt",
+                "name": "IMAGE_IJUN",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-may.pbt",
+                "name": "IMAGE_IMAY",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-apr.pbt",
+                "name": "IMAGE_IAPR",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-mar.pbt",
+                "name": "IMAGE_IMAR",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-feb.pbt",
+                "name": "IMAGE_IFEB",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-jan.pbt",
+                "name": "IMAGE_IJAN",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-sat.pbt",
+                "name": "IMAGE_DAY_NAME_IT_SAT",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-fri.pbt",
+                "name": "IMAGE_DAY_NAME_IT_FRI",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-thu.pbt",
+                "name": "IMAGE_DAY_NAME_IT_THU",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-wed.pbt",
+                "name": "IMAGE_DAY_NAME_IT_WED",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-tue.pbt",
+                "name": "IMAGE_DAY_NAME_IT_TUE",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-mon.pbt",
+                "name": "IMAGE_DAY_NAME_IT_MON",
+                "type": "raw"
+            },
+            {
+                "file": "data/it-t2-sun.pbt",
+                "name": "IMAGE_DAY_NAME_IT_SUN",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-dec.pbt",
+                "name": "IMAGE_FDEC",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-nov.pbt",
+                "name": "IMAGE_FNOV",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-oct.pbt",
+                "name": "IMAGE_FOCT",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-sep.pbt",
+                "name": "IMAGE_FSEP",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-aug.pbt",
+                "name": "IMAGE_FAUG",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-jul.pbt",
+                "name": "IMAGE_FJUL",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-jun.pbt",
+                "name": "IMAGE_FJUN",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-may.pbt",
+                "name": "IMAGE_FMAY",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-apr.pbt",
+                "name": "IMAGE_FAPR",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-mar.pbt",
+                "name": "IMAGE_FMAR",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-feb.pbt",
+                "name": "IMAGE_FFEB",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-jan.pbt",
+                "name": "IMAGE_FJAN",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-mon.pbt",
+                "name": "IMAGE_DAY_NAME_FR_MON",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-tue.pbt",
+                "name": "IMAGE_DAY_NAME_FR_TUE",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-wed.pbt",
+                "name": "IMAGE_DAY_NAME_FR_WED",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-thu.pbt",
+                "name": "IMAGE_DAY_NAME_FR_THU",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-fri.pbt",
+                "name": "IMAGE_DAY_NAME_FR_FRI",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-sat.pbt",
+                "name": "IMAGE_DAY_NAME_FR_SAT",
+                "type": "raw"
+            },
+            {
+                "file": "data/french-t2-sun.pbt",
+                "name": "IMAGE_DAY_NAME_FR_SUN",
+                "type": "raw"
+            },
+            {
+                "file": "data/russian-dec.pbt",
+                "name": "IMAGE_RDEC",
+                "type": "raw"
+            },
+            {
+                "file": "data/russian-nov.pbt",
+                "name": "IMAGE_RNOV",
+                "type": "raw"
+            },
+            {
+                "file": "data/russian-oct.pbt",
+                "name": "IMAGE_ROCT",
+                "type": "raw"
+            },
+            {
+                "file": "data/Russian-sep.pbt",
+                "name": "IMAGE_RSEP",
+                "type": "raw"
+            },
+            {
+                "file": "data/russian-aug.pbt",
+                "name": "IMAGE_RAUG",
+                "type": "raw"
+            },
+            {
+                "file": "data/russian-jul.pbt",
+                "name": "IMAGE_RJUL",
+                "type": "raw"
+            },
+            {
+                "file": "data/russian-jun.pbt",
+                "name": "IMAGE_RJUN",
+                "type": "raw"
+            },
+            {
+                "file": "data/russian-may.pbt",
+                "name": "IMAGE_RMAY",
+                "type": "raw"
+            },
+            {
+                "file": "data/russian-apr.pbt",
+                "name": "IMAGE_RAPR",
+                "type": "raw"
+            },
+            {
+                "file": "data/rusSian-mar.pbt",
+                "name": "IMAGE_RMAR",
+                "type": "raw"
+            },
+            {
+                "file": "data/russian-feb.pbt",
+                "name": "IMAGE_RFEB",
+                "type": "raw"
+            },
+            {
+                "file": "data/russian-jan.pbt",
+                "name": "IMAGE_RJAN",
+                "type": "raw"
+            },
+            {
+                "file": "data/german-dec.pbt",
+                "name": "IMAGE_GDEC",
+                "type": "raw"
+            },
+            {
+                "file": "data/german-nov.pbt",
+                "name": "IMAGE_GNOV",
+                "type": "raw"
+            },
+            {
+                "file": "data/german-oct.pbt",
+                "name": "IMAGE_GOCT",
+                "type": "raw"
+            },
+            {
+                "file": "data/german-sep.pbt",
+                "name": "IMAGE_GSEP",
+                "type": "raw"
+            },
+            {
+                "file": "data/german-aug.pbt",
+                "name": "IMAGE_GAUG",
+                "type": "raw"
+            },
+            {
+                "file": "data/german-jul.pbt",
+                "name": "IMAGE_GJUL",
+                "type": "raw"
+            },
+            {
+                "file": "data/german-jun.pbt",
+                "name": "IMAGE_GJUN",
+                "type": "raw"
+            },
+            {
+                "file": "data/GERMAN-MAY.pbt",
+                "name": "IMAGE_GMAY",
+                "type": "raw"
+            },
+            {
+                "file": "data/GERMAN-APR.pbt",
+                "name": "IMAGE_GAPR",
+                "type": "raw"
+            },
+            {
+                "file": "data/GERMAN-MAR.pbt",
+                "name": "IMAGE_GMAR",
+                "type": "raw"
+            },
+            {
+                "file": "data/GERMAN-FEB.pbt",
+                "name": "IMAGE_GFEB",
+                "type": "raw"
+            },
+            {
+                "file": "data/GERMAN-JAN.pbt",
+                "name": "IMAGE_GJAN",
+                "type": "raw"
+            },
+            {
+                "file": "data/russian-sat.pbt",
+                "name": "IMAGE_DAY_NAME_RUS_SAT",
+                "type": "raw"
+            },
+            {
+                "file": "data/russian-fri.pbt",
+                "name": "IMAGE_DAY_NAME_RUS_FRI",
+                "type": "raw"
+            },
+            {
+                "file": "data/russian-thu.pbt",
+                "name": "IMAGE_DAY_NAME_RUS_THU",
+                "type": "raw"
+            },
+            {
+                "file": "data/russian-wed.pbt",
+                "name": "IMAGE_DAY_NAME_RUS_WED",
+                "type": "raw"
+            },
+            {
+                "file": "data/russian-tue.pbt",
+                "name": "IMAGE_DAY_NAME_RUS_TUE",
+                "type": "raw"
+            },
+            {
+                "file": "data/russian-mon.pbt",
+                "name": "IMAGE_DAY_NAME_RUS_MON",
+                "type": "raw"
+            },
+            {
+                "file": "data/russian-sun.pbt",
+                "name": "IMAGE_DAY_NAME_RUS_SUN",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-SATURDAY_german.pbt",
+                "name": "IMAGE_DAY_NAME_SAMSTAG",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-FRIDAY_german.pbt",
+                "name": "IMAGE_DAY_NAME_FREITAG",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-THURSDAY_german.pbt",
+                "name": "IMAGE_DAY_NAME_DONNERSTAG",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-wednesday_GERMAN.pbt",
+                "name": "IMAGE_DAY_NAME_MITTWOCH",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-tuesday_german.pbt",
+                "name": "IMAGE_DAY_NAME_DIENSTAG",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-monday_german.pbt",
+                "name": "IMAGE_DAY_NAME_MONTAG",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-SUNDAY_german.pbt",
+                "name": "IMAGE_DAY_NAME_SONNTAG",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-december.pbt",
+                "name": "IMAGE_DEC",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-november.pbt",
+                "name": "IMAGE_NOV",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-october.pbt",
+                "name": "IMAGE_OCT",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-september.pbt",
+                "name": "IMAGE_SEP",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-august.pbt",
+                "name": "IMAGE_AUG",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-july.pbt",
+                "name": "IMAGE_JUL",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-june.pbt",
+                "name": "IMAGE_JUN",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-may.pbt",
+                "name": "IMAGE_MAY",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-april.pbt",
+                "name": "IMAGE_APR",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-march.pbt",
+                "name": "IMAGE_MAR",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-february.pbt",
+                "name": "IMAGE_FEB",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-january.pbt",
+                "name": "IMAGE_JAN",
+                "type": "raw"
+            },
+            {
+                "file": "data/movie-rotated-0.pbt",
+                "name": "IMAGE_DATENUM_0",
+                "type": "raw"
+            },
+            {
+                "file": "data/movie-rotated-9.pbt",
+                "name": "IMAGE_DATENUM_9",
+                "type": "raw"
+            },
+            {
+                "file": "data/movie-rotated-8.pbt",
+                "name": "IMAGE_DATENUM_8",
+                "type": "raw"
+            },
+            {
+                "file": "data/movie-rotated-7.pbt",
+                "name": "IMAGE_DATENUM_7",
+                "type": "raw"
+            },
+            {
+                "file": "data/movie-rotated-6.pbt",
+                "name": "IMAGE_DATENUM_6",
+                "type": "raw"
+            },
+            {
+                "file": "data/movie-rotated-5.pbt",
+                "name": "IMAGE_DATENUM_5",
+                "type": "raw"
+            },
+            {
+                "file": "data/movie-rotated-3.pbt",
+                "name": "IMAGE_DATENUM_3",
+                "type": "raw"
+            },
+            {
+                "file": "data/movie-rotated-4.pbt",
+                "name": "IMAGE_DATENUM_4",
+                "type": "raw"
+            },
+            {
+                "file": "data/movie-rotated-1.pbt",
+                "name": "IMAGE_DATENUM_1",
+                "type": "raw"
+            },
+            {
+                "file": "data/movie-rotated-2.pbt",
+                "name": "IMAGE_DATENUM_2",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-saturday.pbt",
+                "name": "IMAGE_DAY_NAME_SAT",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-friday.pbt",
+                "name": "IMAGE_DAY_NAME_FRI",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-wednesday.pbt",
+                "name": "IMAGE_DAY_NAME_WED",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-tuesday.pbt",
+                "name": "IMAGE_DAY_NAME_TUE",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-monday.pbt",
+                "name": "IMAGE_DAY_NAME_MON",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-thursday.pbt",
+                "name": "IMAGE_DAY_NAME_THU",
+                "type": "raw"
+            },
+            {
+                "file": "data/visitor-sunday.pbt",
+                "name": "IMAGE_DAY_NAME_SUN",
+                "type": "raw"
+            },
+            {
+                "file": "data/tiny_percent.pbt",
+                "name": "IMAGE_TINY_PERCENT",
+                "type": "raw"
+            },
+            {
+                "file": "data/tiny_9.pbt",
+                "name": "IMAGE_TINY_9",
+                "type": "raw"
+            },
+            {
+                "file": "data/tiny_8.pbt",
+                "name": "IMAGE_TINY_8",
+                "type": "raw"
+            },
+            {
+                "file": "data/tiny_7.pbt",
+                "name": "IMAGE_TINY_7",
+                "type": "raw"
+            },
+            {
+                "file": "data/tiny_6.pbt",
+                "name": "IMAGE_TINY_6",
+                "type": "raw"
+            },
+            {
+                "file": "data/tiny_5.pbt",
+                "name": "IMAGE_TINY_5",
+                "type": "raw"
+            },
+            {
+                "file": "data/tiny_4.pbt",
+                "name": "IMAGE_TINY_4",
+                "type": "raw"
+            },
+            {
+                "file": "data/tiny_3.pbt",
+                "name": "IMAGE_TINY_3",
+                "type": "raw"
+            },
+            {
+                "file": "data/tiny_2.pbt",
+                "name": "IMAGE_TINY_2",
+                "type": "raw"
+            },
+            {
+                "file": "data/tiny_1.pbt",
+                "name": "IMAGE_TINY_1",
+                "type": "raw"
+            },
+            {
+                "file": "data/tiny_0.pbt",
+                "name": "IMAGE_TINY_0",
+                "type": "raw"
+            },
+            {
+                "file": "data/num_9.pbt",
                 "name": "IMAGE_NUM_9",
-                "type": "png"
+                "type": "raw"
             },
             {
-                "file": "images/num_8.png",
+                "file": "data/num_8.pbt",
                 "name": "IMAGE_NUM_8",
-                "type": "png"
+                "type": "raw"
             },
             {
-                "file": "images/num_7.png",
+                "file": "data/num_7.pbt",
                 "name": "IMAGE_NUM_7",
-                "type": "png"
+                "type": "raw"
             },
             {
-                "file": "images/num_6.png",
+                "file": "data/num_6.pbt",
                 "name": "IMAGE_NUM_6",
-                "type": "png"
+                "type": "raw"
             },
             {
-                "file": "images/num_5.png",
+                "file": "data/num_5.pbt",
                 "name": "IMAGE_NUM_5",
-                "type": "png"
+                "type": "raw"
             },
             {
-                "file": "images/num_4.png",
+                "file": "data/num_4.pbt",
                 "name": "IMAGE_NUM_4",
-                "type": "png"
+                "type": "raw"
             },
             {
-                "file": "images/num_3.png",
+                "file": "data/num_3.pbt",
                 "name": "IMAGE_NUM_3",
-                "type": "png"
+                "type": "raw"
             },
             {
-                "file": "images/num_2.png",
+                "file": "data/num_2.pbt",
                 "name": "IMAGE_NUM_2",
-                "type": "png"
+                "type": "raw"
             },
             {
-                "file": "images/num_1.png",
+                "file": "data/num_1.pbt",
                 "name": "IMAGE_NUM_1",
-                "type": "png"
+                "type": "raw"
             },
             {
-                "file": "images/num_0.png",
+                "file": "data/num_0.pbt",
                 "name": "IMAGE_NUM_0",
-                "type": "png"
+                "type": "raw"
             },
             {
                 "file": "images/separator.png",
@@ -826,7 +826,7 @@
     "shortName": "taller2",
     "uuid": "5ecda828-4e4d-4175-85c6-ce666a6ac644",
     "versionCode": 2,
-    "versionLabel": "1.8",
+    "versionLabel": "1.9",
     "watchapp": {
         "watchface": true
     }

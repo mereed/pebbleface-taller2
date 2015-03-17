@@ -1,4 +1,5 @@
-#include "pebble.h"
+#include <pebble.h>
+#include "packbits.h"
 
 GColor background_color = GColorBlack;
 
@@ -15,11 +16,11 @@ static int invert;
 static int bluetoothvibe;
 static int hourlyvibe;
 static int battbar;
-static int germanlang;
-static int russianlang;
-static int frenchlang;
-static int italianlang;
-static int chlang;
+//static int germanlang;
+//static int russianlang;
+//static int frenchlang;
+//static int italianlang;
+//static int chlang;
 
 static bool appStarted = false;
 
@@ -52,80 +53,60 @@ static BitmapLayer *time_format_layer;
 static GBitmap *day_name_image;
 static BitmapLayer *day_name_layer;
 
-const int DAY_NAME_IMAGE_RESOURCE_IDS[] = {
-  RESOURCE_ID_IMAGE_DAY_NAME_SUN,
+static uint8_t lang =0; //active language
+static const uint8_t day_x_pos[]= {76,73,72,72,73,73}; //same order as below
+static const uint8_t month_x_pos[]={5, 2, 2, 3, 3, 3}; //same order as below
+
+  
+const int DAY_NAME_IMAGE_RESOURCE_IDS[][7] = {
+ {RESOURCE_ID_IMAGE_DAY_NAME_SUN,
   RESOURCE_ID_IMAGE_DAY_NAME_MON,
   RESOURCE_ID_IMAGE_DAY_NAME_TUE,
   RESOURCE_ID_IMAGE_DAY_NAME_WED,
   RESOURCE_ID_IMAGE_DAY_NAME_THU,
   RESOURCE_ID_IMAGE_DAY_NAME_FRI,
-  RESOURCE_ID_IMAGE_DAY_NAME_SAT
-};
-
-static GBitmap *gday_name_image;
-static BitmapLayer *gday_name_layer;
-
-const int DAY_NAME_IMAGE_GERMAN_RESOURCE_IDS[] = {
-  RESOURCE_ID_IMAGE_DAY_NAME_SONNTAG,
+  RESOURCE_ID_IMAGE_DAY_NAME_SAT},
+  //GERMAN
+ {RESOURCE_ID_IMAGE_DAY_NAME_SONNTAG,
   RESOURCE_ID_IMAGE_DAY_NAME_MONTAG,
   RESOURCE_ID_IMAGE_DAY_NAME_DIENSTAG,
   RESOURCE_ID_IMAGE_DAY_NAME_MITTWOCH,
   RESOURCE_ID_IMAGE_DAY_NAME_DONNERSTAG,
   RESOURCE_ID_IMAGE_DAY_NAME_FREITAG,
-  RESOURCE_ID_IMAGE_DAY_NAME_SAMSTAG
-};
-
-static GBitmap *rday_name_image;
-static BitmapLayer *rday_name_layer;
-
-const int DAY_NAME_IMAGE_RUSSIAN_RESOURCE_IDS[] = {
-  RESOURCE_ID_IMAGE_DAY_NAME_RUS_SUN,
+  RESOURCE_ID_IMAGE_DAY_NAME_SAMSTAG},
+  //RUSSIAN
+ {RESOURCE_ID_IMAGE_DAY_NAME_RUS_SUN,
   RESOURCE_ID_IMAGE_DAY_NAME_RUS_MON,
   RESOURCE_ID_IMAGE_DAY_NAME_RUS_TUE,
   RESOURCE_ID_IMAGE_DAY_NAME_RUS_WED,
   RESOURCE_ID_IMAGE_DAY_NAME_RUS_THU,
   RESOURCE_ID_IMAGE_DAY_NAME_RUS_FRI,
-  RESOURCE_ID_IMAGE_DAY_NAME_RUS_SAT
-};	
-
-static GBitmap *fday_name_image;
-static BitmapLayer *fday_name_layer;
-
-const int DAY_NAME_IMAGE_FRENCH_RESOURCE_IDS[] = {
-  RESOURCE_ID_IMAGE_DAY_NAME_FR_SUN,
+  RESOURCE_ID_IMAGE_DAY_NAME_RUS_SAT},
+  //FRENCH
+ {RESOURCE_ID_IMAGE_DAY_NAME_FR_SUN,
   RESOURCE_ID_IMAGE_DAY_NAME_FR_MON,
   RESOURCE_ID_IMAGE_DAY_NAME_FR_TUE,
   RESOURCE_ID_IMAGE_DAY_NAME_FR_WED,
   RESOURCE_ID_IMAGE_DAY_NAME_FR_THU,
   RESOURCE_ID_IMAGE_DAY_NAME_FR_FRI,
-  RESOURCE_ID_IMAGE_DAY_NAME_FR_SAT
-};	
-
-static GBitmap *iday_name_image;
-static BitmapLayer *iday_name_layer;
-
-const int DAY_NAME_IMAGE_ITALIAN_RESOURCE_IDS[] = {
-  RESOURCE_ID_IMAGE_DAY_NAME_IT_SUN,
+  RESOURCE_ID_IMAGE_DAY_NAME_FR_SAT},
+  //ITALIAN
+ {RESOURCE_ID_IMAGE_DAY_NAME_IT_SUN,
   RESOURCE_ID_IMAGE_DAY_NAME_IT_MON,
   RESOURCE_ID_IMAGE_DAY_NAME_IT_TUE,
   RESOURCE_ID_IMAGE_DAY_NAME_IT_WED,
   RESOURCE_ID_IMAGE_DAY_NAME_IT_THU,
   RESOURCE_ID_IMAGE_DAY_NAME_IT_FRI,
-  RESOURCE_ID_IMAGE_DAY_NAME_IT_SAT
-};	
-
-static GBitmap *cday_name_image;
-static BitmapLayer *cday_name_layer;
-
-const int DAY_NAME_IMAGE_CHINESE_RESOURCE_IDS[] = {
-  RESOURCE_ID_IMAGE_DAY_NAME_CH_SUN,
+  RESOURCE_ID_IMAGE_DAY_NAME_IT_SAT},
+  //CHINESE
+ {RESOURCE_ID_IMAGE_DAY_NAME_CH_SUN,
   RESOURCE_ID_IMAGE_DAY_NAME_CH_MON,
   RESOURCE_ID_IMAGE_DAY_NAME_CH_TUE,
   RESOURCE_ID_IMAGE_DAY_NAME_CH_WED,
   RESOURCE_ID_IMAGE_DAY_NAME_CH_THU,
   RESOURCE_ID_IMAGE_DAY_NAME_CH_FRI,
-  RESOURCE_ID_IMAGE_DAY_NAME_CH_SAT
-};	
+  RESOURCE_ID_IMAGE_DAY_NAME_CH_SAT},
+};
 
 #define TOTAL_DATE_DIGITS 2	
 static GBitmap *date_digits_images[TOTAL_DATE_DIGITS];
@@ -164,8 +145,8 @@ const int BIG_DIGIT_IMAGE_RESOURCE_IDS[] = {
 static GBitmap *month_image;
 static BitmapLayer *month_layer;
 
-const int MONTH_IMAGE_RESOURCE_IDS[] = {
-  RESOURCE_ID_IMAGE_JAN,
+const int MONTH_IMAGE_RESOURCE_IDS[][12] = {
+ {RESOURCE_ID_IMAGE_JAN,
   RESOURCE_ID_IMAGE_FEB,
   RESOURCE_ID_IMAGE_MAR,
   RESOURCE_ID_IMAGE_APR,
@@ -176,14 +157,9 @@ const int MONTH_IMAGE_RESOURCE_IDS[] = {
   RESOURCE_ID_IMAGE_SEP,
   RESOURCE_ID_IMAGE_OCT,
   RESOURCE_ID_IMAGE_NOV,
-  RESOURCE_ID_IMAGE_DEC
-};
-
-static GBitmap *gmonth_image;
-static BitmapLayer *gmonth_layer;
-
-const int GMONTH_IMAGE_RESOURCE_IDS[] = {
-  RESOURCE_ID_IMAGE_GJAN,
+  RESOURCE_ID_IMAGE_DEC},
+  //German
+ {RESOURCE_ID_IMAGE_GJAN,
   RESOURCE_ID_IMAGE_GFEB,
   RESOURCE_ID_IMAGE_GMAR,
   RESOURCE_ID_IMAGE_GAPR,
@@ -194,14 +170,9 @@ const int GMONTH_IMAGE_RESOURCE_IDS[] = {
   RESOURCE_ID_IMAGE_GSEP,
   RESOURCE_ID_IMAGE_GOCT,
   RESOURCE_ID_IMAGE_GNOV,
-  RESOURCE_ID_IMAGE_GDEC
-};
-
-static GBitmap *rmonth_image;
-static BitmapLayer *rmonth_layer;
-
-const int RMONTH_IMAGE_RESOURCE_IDS[] = {
-  RESOURCE_ID_IMAGE_RJAN,
+  RESOURCE_ID_IMAGE_GDEC},
+  //Russian
+ {RESOURCE_ID_IMAGE_RJAN,
   RESOURCE_ID_IMAGE_RFEB,
   RESOURCE_ID_IMAGE_RMAR,
   RESOURCE_ID_IMAGE_RAPR,
@@ -212,14 +183,9 @@ const int RMONTH_IMAGE_RESOURCE_IDS[] = {
   RESOURCE_ID_IMAGE_RSEP,
   RESOURCE_ID_IMAGE_ROCT,
   RESOURCE_ID_IMAGE_RNOV,
-  RESOURCE_ID_IMAGE_RDEC
-};
-
-static GBitmap *fmonth_image;
-static BitmapLayer *fmonth_layer;
-
-const int FMONTH_IMAGE_RESOURCE_IDS[] = {
-  RESOURCE_ID_IMAGE_FJAN,
+  RESOURCE_ID_IMAGE_RDEC},
+  //French
+ {RESOURCE_ID_IMAGE_FJAN,
   RESOURCE_ID_IMAGE_FFEB,
   RESOURCE_ID_IMAGE_FMAR,
   RESOURCE_ID_IMAGE_FAPR,
@@ -230,14 +196,9 @@ const int FMONTH_IMAGE_RESOURCE_IDS[] = {
   RESOURCE_ID_IMAGE_FSEP,
   RESOURCE_ID_IMAGE_FOCT,
   RESOURCE_ID_IMAGE_FNOV,
-  RESOURCE_ID_IMAGE_FDEC
-};
-
-static GBitmap *imonth_image;
-static BitmapLayer *imonth_layer;
-
-const int IMONTH_IMAGE_RESOURCE_IDS[] = {
-  RESOURCE_ID_IMAGE_IJAN,
+  RESOURCE_ID_IMAGE_FDEC},
+  //Italian
+ {RESOURCE_ID_IMAGE_IJAN,
   RESOURCE_ID_IMAGE_IFEB,
   RESOURCE_ID_IMAGE_IMAR,
   RESOURCE_ID_IMAGE_IAPR,
@@ -248,14 +209,9 @@ const int IMONTH_IMAGE_RESOURCE_IDS[] = {
   RESOURCE_ID_IMAGE_ISEP,
   RESOURCE_ID_IMAGE_IOCT,
   RESOURCE_ID_IMAGE_INOV,
-  RESOURCE_ID_IMAGE_IDEC
-};
-
-static GBitmap *cmonth_image;
-static BitmapLayer *cmonth_layer;
-
-const int CMONTH_IMAGE_RESOURCE_IDS[] = {
-  RESOURCE_ID_IMAGE_CJAN,
+  RESOURCE_ID_IMAGE_IDEC},
+  //China
+ {RESOURCE_ID_IMAGE_CJAN,
   RESOURCE_ID_IMAGE_CFEB,
   RESOURCE_ID_IMAGE_CMAR,
   RESOURCE_ID_IMAGE_CAPR,
@@ -266,8 +222,10 @@ const int CMONTH_IMAGE_RESOURCE_IDS[] = {
   RESOURCE_ID_IMAGE_CSEP,
   RESOURCE_ID_IMAGE_COCT,
   RESOURCE_ID_IMAGE_CNOV,
-  RESOURCE_ID_IMAGE_CDEC
+  RESOURCE_ID_IMAGE_CDEC}
+  
 };
+
 
 #define TOTAL_BATTERY_PERCENT_DIGITS 3
 static GBitmap *battery_percent_image[TOTAL_BATTERY_PERCENT_DIGITS];
@@ -366,7 +324,7 @@ static void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tup
 	  hidebatt (battbar);
       break;
 	  
-	case ITALIAN_KEY:
+	/*case ITALIAN_KEY:
       italianlang = new_tuple->value->uint8 != 0;
 	  persist_write_bool(ITALIAN_KEY, italianlang);	  
 	
@@ -429,13 +387,13 @@ static void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tup
             layer_set_hidden(bitmap_layer_get_layer(cmonth_layer), true);
 			layer_set_hidden(bitmap_layer_get_layer(cday_name_layer), true);
         }
-      break;
+      break;*/
   }
 }
 
 static void set_container_image(GBitmap **bmp_image, BitmapLayer *bmp_layer, const int resource_id, GPoint origin) {
   GBitmap *old_image = *bmp_image;
-  *bmp_image = gbitmap_create_with_resource(resource_id);
+  *bmp_image = gbitmap_create_from_pbt(resource_id);
   GRect frame = (GRect) {
     .origin = origin,
     .size = (*bmp_image)->bounds.size
@@ -519,14 +477,8 @@ unsigned short get_display_hour(unsigned short hour) {
 }
 
 static void update_days(struct tm *tick_time) {
-  set_container_image(&day_name_image, day_name_layer, DAY_NAME_IMAGE_RESOURCE_IDS[tick_time->tm_wday], GPoint(76, 16));
+  set_container_image(&day_name_image, day_name_layer, DAY_NAME_IMAGE_RESOURCE_IDS[lang][tick_time->tm_wday], GPoint(day_x_pos[lang], 16));
 
-  set_container_image(&cday_name_image, cday_name_layer, DAY_NAME_IMAGE_CHINESE_RESOURCE_IDS[tick_time->tm_wday], GPoint(73, 16));
-  set_container_image(&iday_name_image, iday_name_layer, DAY_NAME_IMAGE_ITALIAN_RESOURCE_IDS[tick_time->tm_wday], GPoint(73, 16));
-  set_container_image(&fday_name_image, fday_name_layer, DAY_NAME_IMAGE_FRENCH_RESOURCE_IDS[tick_time->tm_wday], GPoint(72, 16));
-  set_container_image(&rday_name_image, rday_name_layer, DAY_NAME_IMAGE_RUSSIAN_RESOURCE_IDS[tick_time->tm_wday], GPoint(72, 16));
-  set_container_image(&gday_name_image, gday_name_layer, DAY_NAME_IMAGE_GERMAN_RESOURCE_IDS[tick_time->tm_wday], GPoint(73, 16));
-	
   set_container_image(&date_digits_images[0], date_digits_layers[0], DATENUM_IMAGE_RESOURCE_IDS[tick_time->tm_mday/10], GPoint(75,139));
   set_container_image(&date_digits_images[1], date_digits_layers[1], DATENUM_IMAGE_RESOURCE_IDS[tick_time->tm_mday%10], GPoint(75, 147));
 }
@@ -534,13 +486,8 @@ static void update_days(struct tm *tick_time) {
 //DRAW MONTH
 	
 static void update_months(struct tm *tick_time) {	
-  set_container_image(&month_image, month_layer, MONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(5, 16));
-	
-  set_container_image(&gmonth_image, gmonth_layer, GMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(2, 16));
-  set_container_image(&rmonth_image, rmonth_layer, RMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(2, 16));
-  set_container_image(&fmonth_image, fmonth_layer, FMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(3, 16));
-  set_container_image(&imonth_image, imonth_layer, IMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(3, 16));
-  set_container_image(&cmonth_image, cmonth_layer, CMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(3, 16));
+  set_container_image(&month_image, month_layer, MONTH_IMAGE_RESOURCE_IDS[lang][tick_time->tm_mon], GPoint(month_x_pos[lang], 16));
+
 }
 
 static void update_hours(struct tm *tick_time) {
@@ -594,6 +541,10 @@ static void handle_tick(struct tm *tick_time, TimeUnits units_changed) {
   }
   if (units_changed & MINUTE_UNIT) {
     update_minutes(tick_time);
+      // testing languages changing every minute
+      lang=(lang+1)%6;
+      update_months(tick_time);
+      update_days(tick_time);
   }	
   if (units_changed & SECOND_UNIT) {
     update_seconds(tick_time);
@@ -673,7 +624,7 @@ set_style();
    month_layer = bitmap_layer_create(dummy_frame);
    layer_add_child(window_layer, bitmap_layer_get_layer(month_layer));
 	
-   gday_name_layer = bitmap_layer_create(dummy_frame);
+   /*gday_name_layer = bitmap_layer_create(dummy_frame);
    layer_add_child(window_layer, bitmap_layer_get_layer(gday_name_layer));
    gmonth_layer = bitmap_layer_create(dummy_frame);
    layer_add_child(window_layer, bitmap_layer_get_layer(gmonth_layer));
@@ -696,7 +647,7 @@ set_style();
    cday_name_layer = bitmap_layer_create(dummy_frame);
    layer_add_child(window_layer, bitmap_layer_get_layer(cday_name_layer));	
    cmonth_layer = bitmap_layer_create(dummy_frame);
-   layer_add_child(window_layer, bitmap_layer_get_layer(cmonth_layer));
+   layer_add_child(window_layer, bitmap_layer_get_layer(cmonth_layer));*/
 	
   for (int i = 0; i < TOTAL_TIME_DIGITS; ++i) {
     time_digits_layers[i] = bitmap_layer_create(dummy_frame);
@@ -784,7 +735,7 @@ static void deinit(void) {
   bitmap_layer_destroy(day_name_layer);
   gbitmap_destroy(day_name_image);
 	
-  layer_remove_from_parent(bitmap_layer_get_layer(gday_name_layer));
+  /*layer_remove_from_parent(bitmap_layer_get_layer(gday_name_layer));
   bitmap_layer_destroy(gday_name_layer);
   gbitmap_destroy(gday_name_image);
 	
@@ -802,13 +753,13 @@ static void deinit(void) {
 	
   layer_remove_from_parent(bitmap_layer_get_layer(cday_name_layer));
   bitmap_layer_destroy(cday_name_layer);
-  gbitmap_destroy(cday_name_image);
+  gbitmap_destroy(cday_name_image);*/
 	
   layer_remove_from_parent(bitmap_layer_get_layer(month_layer));
   bitmap_layer_destroy(month_layer);
   gbitmap_destroy(month_image);  
 	
-  layer_remove_from_parent(bitmap_layer_get_layer(gmonth_layer));
+  /*layer_remove_from_parent(bitmap_layer_get_layer(gmonth_layer));
   bitmap_layer_destroy(gmonth_layer);
   gbitmap_destroy(gmonth_image);  
 	
@@ -826,7 +777,7 @@ static void deinit(void) {
 		
   layer_remove_from_parent(bitmap_layer_get_layer(cmonth_layer));
   bitmap_layer_destroy(cmonth_layer);
-  gbitmap_destroy(cmonth_image);
+  gbitmap_destroy(cmonth_image);*/
 	
   	
   layer_remove_from_parent(bitmap_layer_get_layer(layer_batt_img));
