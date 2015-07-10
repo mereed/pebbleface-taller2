@@ -27,12 +27,8 @@ function saveLocalData(config) {
   localStorage.setItem("invert", parseInt(config.invert)); 
   localStorage.setItem("bluetoothvibe", parseInt(config.bluetoothvibe)); 
   localStorage.setItem("hourlyvibe", parseInt(config.hourlyvibe)); 
-  localStorage.setItem("chlang", parseInt(config.chlang)); 
   localStorage.setItem("battbar", parseInt(config.battbar)); 
-  localStorage.setItem("germanlang", parseInt(config.germanlang)); 
-  localStorage.setItem("russianlang", parseInt(config.russianlang)); 
-  localStorage.setItem("frenchlang", parseInt(config.frenchlang)); 
-  localStorage.setItem("italianlang", parseInt(config.italianlang)); 
+  localStorage.setItem("language", parseInt(config.language)); 
   
   loadLocalData();
 
@@ -43,13 +39,9 @@ function loadLocalData() {
 	mConfig.invert = parseInt(localStorage.getItem("invert"));
 	mConfig.bluetoothvibe = parseInt(localStorage.getItem("bluetoothvibe"));
 	mConfig.hourlyvibe = parseInt(localStorage.getItem("hourlyvibe"));
-	mConfig.chlang = parseInt(localStorage.getItem("chlang"));
 	mConfig.battbar = parseInt(localStorage.getItem("battbar"));
-	mConfig.germanlang = parseInt(localStorage.getItem("germanlang"));
-	mConfig.russianlang = parseInt(localStorage.getItem("russianlang"));
-	mConfig.frenchlang = parseInt(localStorage.getItem("frenchlang"));
-	mConfig.italianlang = parseInt(localStorage.getItem("italianlang"));
-	mConfig.configureUrl = "http://www.themapman.com/pebblewatch/taller2e.html";
+	mConfig.language = parseInt(localStorage.getItem("language"));
+	mConfig.configureUrl = "http://www.themapman.com/pebblewatch/taller3.html";
 
 	if(isNaN(mConfig.blink)) {
 		mConfig.blink = 1;
@@ -63,23 +55,11 @@ function loadLocalData() {
 	if(isNaN(mConfig.hourlyvibe)) {
 		mConfig.hourlyvibe = 0;
 	}
-    if(isNaN(mConfig.chlang)) {
-		mConfig.chlang = 0;
-	}
     if(isNaN(mConfig.battbar)) {
-		mConfig.battbar = 1;
+		mConfig.battbar = 0;
 	}
-	if(isNaN(mConfig.germanlang)) {
-		mConfig.germanlang = 0;
-	}
-	if(isNaN(mConfig.russianlang)) {
-		mConfig.russianlang = 0;
-	}
-	if(isNaN(mConfig.frenchlang)) {
-		mConfig.frenchlang = 0;
-	}
-	if(isNaN(mConfig.italianlang)) {
-		mConfig.italianlang = 0;
+	if(isNaN(mConfig.language)) {
+		mConfig.language = 0;
 	}
   //console.log("loadLocalData() " + JSON.stringify(mConfig));
 }
@@ -90,11 +70,7 @@ function returnConfigToPebble() {
     "invert":parseInt(mConfig.invert), 
     "bluetoothvibe":parseInt(mConfig.bluetoothvibe), 
     "hourlyvibe":parseInt(mConfig.hourlyvibe),
-    "chlang":parseInt(mConfig.chlang),
     "battbar":parseInt(mConfig.battbar),
-    "germanlang":parseInt(mConfig.germanlang),
-    "russianlang":parseInt(mConfig.russianlang),
-    "frenchlang":parseInt(mConfig.frenchlang),
-    "italianlang":parseInt(mConfig.italianlang),
+    "language":parseInt(mConfig.language),
   });    
 }

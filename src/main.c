@@ -1,8 +1,9 @@
-#include <pebble.h>
-#include "packbits.h"
+#include "pebble.h"
+#include "effect_layer.h"
 
-GColor background_color = GColorBlack;
-
+EffectLayer* effect_layer_inv;
+EffectLayer* effect_layer_col;
+	
 static Window *window;
 static Layer *window_layer;
 
@@ -16,11 +17,7 @@ static int invert;
 static int bluetoothvibe;
 static int hourlyvibe;
 static int battbar;
-//static int germanlang;
-//static int russianlang;
-//static int frenchlang;
-//static int italianlang;
-//static int chlang;
+static int language;
 
 static bool appStarted = false;
 
@@ -29,13 +26,18 @@ enum {
   INVERT_KEY = 0x1,
   BLUETOOTHVIBE_KEY = 0x2,
   HOURLYVIBE_KEY = 0x3,
-  CHINESE_KEY = 0x4,
+  LANGUAGE_KEY = 0x4,
   BATTBAR_KEY = 0x5,
-  GERMAN_KEY = 0x6,
-  RUSSIAN_KEY = 0x7,
-  FRENCH_KEY = 0x8,
-  ITALIAN_KEY = 0x9
 };
+
+	// initializing colors
+ struct EffectColorpair {
+  GColor firstColor;  // first color (target for colorize, one of set in colorswap)
+  GColor secondColor; // second color (new color for colorize, other of set in colorswap)
+};
+  
+EffectColorpair colorpair;
+
 
 static GBitmap *separator_image;
 static BitmapLayer *separator_layer;
@@ -43,70 +45,144 @@ static BitmapLayer *separator_layer;
 static GBitmap *bluetooth_image;
 static BitmapLayer *bluetooth_layer;
 
-static GBitmap *x;
-static BitmapLayer *y;
-static BitmapLayer *z;
+static GBitmap *bluetooth_image_on;
+static BitmapLayer *bluetooth_layer_on;
 
 static GBitmap *time_format_image;
 static BitmapLayer *time_format_layer;
 
+
+GBitmap *img_battery_100;
+GBitmap *img_battery_90;
+GBitmap *img_battery_80;
+GBitmap *img_battery_70;
+GBitmap *img_battery_60;
+GBitmap *img_battery_50;
+GBitmap *img_battery_40;
+GBitmap *img_battery_30;
+GBitmap *img_battery_20;
+GBitmap *img_battery_10;
+GBitmap *img_battery_charge;
+BitmapLayer *layer_batt_img;
+
+
 static GBitmap *day_name_image;
 static BitmapLayer *day_name_layer;
 
-static uint8_t lang =0; //active language
-static const uint8_t day_x_pos[]= {76,73,72,72,73,73}; //same order as below
-static const uint8_t month_x_pos[]={5, 2, 2, 3, 3, 3}; //same order as below
-
-  
-const int DAY_NAME_IMAGE_RESOURCE_IDS[][7] = {
- {RESOURCE_ID_IMAGE_DAY_NAME_SUN,
+const int DAY_NAME_IMAGE_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_DAY_NAME_SUN,
   RESOURCE_ID_IMAGE_DAY_NAME_MON,
   RESOURCE_ID_IMAGE_DAY_NAME_TUE,
   RESOURCE_ID_IMAGE_DAY_NAME_WED,
   RESOURCE_ID_IMAGE_DAY_NAME_THU,
   RESOURCE_ID_IMAGE_DAY_NAME_FRI,
-  RESOURCE_ID_IMAGE_DAY_NAME_SAT},
-  //GERMAN
- {RESOURCE_ID_IMAGE_DAY_NAME_SONNTAG,
+  RESOURCE_ID_IMAGE_DAY_NAME_SAT
+};
+
+static GBitmap *gday_name_image;
+static BitmapLayer *gday_name_layer;
+
+const int DAY_NAME_IMAGE_GERMAN_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_DAY_NAME_SONNTAG,
   RESOURCE_ID_IMAGE_DAY_NAME_MONTAG,
   RESOURCE_ID_IMAGE_DAY_NAME_DIENSTAG,
   RESOURCE_ID_IMAGE_DAY_NAME_MITTWOCH,
   RESOURCE_ID_IMAGE_DAY_NAME_DONNERSTAG,
   RESOURCE_ID_IMAGE_DAY_NAME_FREITAG,
-  RESOURCE_ID_IMAGE_DAY_NAME_SAMSTAG},
-  //RUSSIAN
- {RESOURCE_ID_IMAGE_DAY_NAME_RUS_SUN,
+  RESOURCE_ID_IMAGE_DAY_NAME_SAMSTAG
+};
+
+static GBitmap *rday_name_image;
+static BitmapLayer *rday_name_layer;
+
+const int DAY_NAME_IMAGE_RUSSIAN_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_DAY_NAME_RUS_SUN,
   RESOURCE_ID_IMAGE_DAY_NAME_RUS_MON,
   RESOURCE_ID_IMAGE_DAY_NAME_RUS_TUE,
   RESOURCE_ID_IMAGE_DAY_NAME_RUS_WED,
   RESOURCE_ID_IMAGE_DAY_NAME_RUS_THU,
   RESOURCE_ID_IMAGE_DAY_NAME_RUS_FRI,
-  RESOURCE_ID_IMAGE_DAY_NAME_RUS_SAT},
-  //FRENCH
- {RESOURCE_ID_IMAGE_DAY_NAME_FR_SUN,
+  RESOURCE_ID_IMAGE_DAY_NAME_RUS_SAT
+};	
+
+static GBitmap *fday_name_image;
+static BitmapLayer *fday_name_layer;
+
+const int DAY_NAME_IMAGE_FRENCH_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_DAY_NAME_FR_SUN,
   RESOURCE_ID_IMAGE_DAY_NAME_FR_MON,
   RESOURCE_ID_IMAGE_DAY_NAME_FR_TUE,
   RESOURCE_ID_IMAGE_DAY_NAME_FR_WED,
   RESOURCE_ID_IMAGE_DAY_NAME_FR_THU,
   RESOURCE_ID_IMAGE_DAY_NAME_FR_FRI,
-  RESOURCE_ID_IMAGE_DAY_NAME_FR_SAT},
-  //ITALIAN
- {RESOURCE_ID_IMAGE_DAY_NAME_IT_SUN,
+  RESOURCE_ID_IMAGE_DAY_NAME_FR_SAT
+};	
+
+static GBitmap *iday_name_image;
+static BitmapLayer *iday_name_layer;
+
+const int DAY_NAME_IMAGE_ITALIAN_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_DAY_NAME_IT_SUN,
   RESOURCE_ID_IMAGE_DAY_NAME_IT_MON,
   RESOURCE_ID_IMAGE_DAY_NAME_IT_TUE,
   RESOURCE_ID_IMAGE_DAY_NAME_IT_WED,
   RESOURCE_ID_IMAGE_DAY_NAME_IT_THU,
   RESOURCE_ID_IMAGE_DAY_NAME_IT_FRI,
-  RESOURCE_ID_IMAGE_DAY_NAME_IT_SAT},
-  //CHINESE
- {RESOURCE_ID_IMAGE_DAY_NAME_CH_SUN,
+  RESOURCE_ID_IMAGE_DAY_NAME_IT_SAT
+};	
+
+static GBitmap *cday_name_image;
+static BitmapLayer *cday_name_layer;
+
+const int DAY_NAME_IMAGE_CHINESE_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_DAY_NAME_CH_SUN,
   RESOURCE_ID_IMAGE_DAY_NAME_CH_MON,
   RESOURCE_ID_IMAGE_DAY_NAME_CH_TUE,
   RESOURCE_ID_IMAGE_DAY_NAME_CH_WED,
   RESOURCE_ID_IMAGE_DAY_NAME_CH_THU,
   RESOURCE_ID_IMAGE_DAY_NAME_CH_FRI,
-  RESOURCE_ID_IMAGE_DAY_NAME_CH_SAT},
+  RESOURCE_ID_IMAGE_DAY_NAME_CH_SAT
+};		
+
+static GBitmap *kday_name_image;
+static BitmapLayer *kday_name_layer;
+
+const int DAY_NAME_IMAGE_KOREAN_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_DAY_NAME_KO_SUN,
+  RESOURCE_ID_IMAGE_DAY_NAME_KO_MON,
+  RESOURCE_ID_IMAGE_DAY_NAME_KO_TUE,
+  RESOURCE_ID_IMAGE_DAY_NAME_KO_WED,
+  RESOURCE_ID_IMAGE_DAY_NAME_KO_THU,
+  RESOURCE_ID_IMAGE_DAY_NAME_KO_FRI,
+  RESOURCE_ID_IMAGE_DAY_NAME_KO_SAT
+};	
+
+static GBitmap *sday_name_image;
+static BitmapLayer *sday_name_layer;
+
+const int DAY_NAME_IMAGE_SPANISH_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_DAY_NAME_SP_SUN,
+  RESOURCE_ID_IMAGE_DAY_NAME_SP_MON,
+  RESOURCE_ID_IMAGE_DAY_NAME_SP_TUE,
+  RESOURCE_ID_IMAGE_DAY_NAME_SP_WED,
+  RESOURCE_ID_IMAGE_DAY_NAME_SP_THU,
+  RESOURCE_ID_IMAGE_DAY_NAME_SP_FRI,
+  RESOURCE_ID_IMAGE_DAY_NAME_SP_SAT
+};	
+
+/*static GBitmap *ja_day_name_image;
+static BitmapLayer *ja_day_name_layer;
+
+const int DAY_NAME_IMAGE_JAPANESE_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_DAY_NAME_JA_SUN,
+  RESOURCE_ID_IMAGE_DAY_NAME_JA_MON,
+  RESOURCE_ID_IMAGE_DAY_NAME_JA_TUE,
+  RESOURCE_ID_IMAGE_DAY_NAME_JA_WED,
+  RESOURCE_ID_IMAGE_DAY_NAME_JA_THU,
+  RESOURCE_ID_IMAGE_DAY_NAME_JA_FRI,
+  RESOURCE_ID_IMAGE_DAY_NAME_JA_SAT
 };
+*/
 
 #define TOTAL_DATE_DIGITS 2	
 static GBitmap *date_digits_images[TOTAL_DATE_DIGITS];
@@ -145,8 +221,8 @@ const int BIG_DIGIT_IMAGE_RESOURCE_IDS[] = {
 static GBitmap *month_image;
 static BitmapLayer *month_layer;
 
-const int MONTH_IMAGE_RESOURCE_IDS[][12] = {
- {RESOURCE_ID_IMAGE_JAN,
+const int MONTH_IMAGE_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_JAN,
   RESOURCE_ID_IMAGE_FEB,
   RESOURCE_ID_IMAGE_MAR,
   RESOURCE_ID_IMAGE_APR,
@@ -157,9 +233,14 @@ const int MONTH_IMAGE_RESOURCE_IDS[][12] = {
   RESOURCE_ID_IMAGE_SEP,
   RESOURCE_ID_IMAGE_OCT,
   RESOURCE_ID_IMAGE_NOV,
-  RESOURCE_ID_IMAGE_DEC},
-  //German
- {RESOURCE_ID_IMAGE_GJAN,
+  RESOURCE_ID_IMAGE_DEC
+};
+
+static GBitmap *gmonth_image;
+static BitmapLayer *gmonth_layer;
+
+const int GMONTH_IMAGE_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_GJAN,
   RESOURCE_ID_IMAGE_GFEB,
   RESOURCE_ID_IMAGE_GMAR,
   RESOURCE_ID_IMAGE_GAPR,
@@ -170,9 +251,14 @@ const int MONTH_IMAGE_RESOURCE_IDS[][12] = {
   RESOURCE_ID_IMAGE_GSEP,
   RESOURCE_ID_IMAGE_GOCT,
   RESOURCE_ID_IMAGE_GNOV,
-  RESOURCE_ID_IMAGE_GDEC},
-  //Russian
- {RESOURCE_ID_IMAGE_RJAN,
+  RESOURCE_ID_IMAGE_GDEC
+};
+
+static GBitmap *rmonth_image;
+static BitmapLayer *rmonth_layer;
+
+const int RMONTH_IMAGE_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_RJAN,
   RESOURCE_ID_IMAGE_RFEB,
   RESOURCE_ID_IMAGE_RMAR,
   RESOURCE_ID_IMAGE_RAPR,
@@ -183,9 +269,14 @@ const int MONTH_IMAGE_RESOURCE_IDS[][12] = {
   RESOURCE_ID_IMAGE_RSEP,
   RESOURCE_ID_IMAGE_ROCT,
   RESOURCE_ID_IMAGE_RNOV,
-  RESOURCE_ID_IMAGE_RDEC},
-  //French
- {RESOURCE_ID_IMAGE_FJAN,
+  RESOURCE_ID_IMAGE_RDEC
+};
+
+static GBitmap *fmonth_image;
+static BitmapLayer *fmonth_layer;
+
+const int FMONTH_IMAGE_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_FJAN,
   RESOURCE_ID_IMAGE_FFEB,
   RESOURCE_ID_IMAGE_FMAR,
   RESOURCE_ID_IMAGE_FAPR,
@@ -196,9 +287,14 @@ const int MONTH_IMAGE_RESOURCE_IDS[][12] = {
   RESOURCE_ID_IMAGE_FSEP,
   RESOURCE_ID_IMAGE_FOCT,
   RESOURCE_ID_IMAGE_FNOV,
-  RESOURCE_ID_IMAGE_FDEC},
-  //Italian
- {RESOURCE_ID_IMAGE_IJAN,
+  RESOURCE_ID_IMAGE_FDEC
+};
+
+static GBitmap *imonth_image;
+static BitmapLayer *imonth_layer;
+
+const int IMONTH_IMAGE_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_IJAN,
   RESOURCE_ID_IMAGE_IFEB,
   RESOURCE_ID_IMAGE_IMAR,
   RESOURCE_ID_IMAGE_IAPR,
@@ -209,9 +305,14 @@ const int MONTH_IMAGE_RESOURCE_IDS[][12] = {
   RESOURCE_ID_IMAGE_ISEP,
   RESOURCE_ID_IMAGE_IOCT,
   RESOURCE_ID_IMAGE_INOV,
-  RESOURCE_ID_IMAGE_IDEC},
-  //China
- {RESOURCE_ID_IMAGE_CJAN,
+  RESOURCE_ID_IMAGE_IDEC
+};
+
+static GBitmap *cmonth_image;
+static BitmapLayer *cmonth_layer;
+
+const int CMONTH_IMAGE_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_CJAN,
   RESOURCE_ID_IMAGE_CFEB,
   RESOURCE_ID_IMAGE_CMAR,
   RESOURCE_ID_IMAGE_CAPR,
@@ -222,60 +323,64 @@ const int MONTH_IMAGE_RESOURCE_IDS[][12] = {
   RESOURCE_ID_IMAGE_CSEP,
   RESOURCE_ID_IMAGE_COCT,
   RESOURCE_ID_IMAGE_CNOV,
-  RESOURCE_ID_IMAGE_CDEC}
-  
+  RESOURCE_ID_IMAGE_CDEC
 };
 
+static GBitmap *kmonth_image;
+static BitmapLayer *kmonth_layer;
 
-#define TOTAL_BATTERY_PERCENT_DIGITS 3
-static GBitmap *battery_percent_image[TOTAL_BATTERY_PERCENT_DIGITS];
-static BitmapLayer *battery_percent_layers[TOTAL_BATTERY_PERCENT_DIGITS];
-
-const int TINY_IMAGE_RESOURCE_IDS[] = {
-  RESOURCE_ID_IMAGE_TINY_0,
-  RESOURCE_ID_IMAGE_TINY_1,
-  RESOURCE_ID_IMAGE_TINY_2,
-  RESOURCE_ID_IMAGE_TINY_3,
-  RESOURCE_ID_IMAGE_TINY_4,
-  RESOURCE_ID_IMAGE_TINY_5,
-  RESOURCE_ID_IMAGE_TINY_6,
-  RESOURCE_ID_IMAGE_TINY_7,
-  RESOURCE_ID_IMAGE_TINY_8,
-  RESOURCE_ID_IMAGE_TINY_9,
-  RESOURCE_ID_IMAGE_TINY_PERCENT
+const int KMONTH_IMAGE_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_KJAN,
+  RESOURCE_ID_IMAGE_KFEB,
+  RESOURCE_ID_IMAGE_KMAR,
+  RESOURCE_ID_IMAGE_KAPR,
+  RESOURCE_ID_IMAGE_KMAY,
+  RESOURCE_ID_IMAGE_KJUN,
+  RESOURCE_ID_IMAGE_KJUL,
+  RESOURCE_ID_IMAGE_KAUG,
+  RESOURCE_ID_IMAGE_KSEP,
+  RESOURCE_ID_IMAGE_KOCT,
+  RESOURCE_ID_IMAGE_KNOV,
+  RESOURCE_ID_IMAGE_KDEC
 };
 
-BitmapLayer *layer_batt_img;
-GBitmap *batt_100;
-GBitmap *batt_90;
-GBitmap *batt_80;
-GBitmap *batt_70;
-GBitmap *batt_60;
-GBitmap *batt_50;
-GBitmap *batt_40;
-GBitmap *batt_30;
-GBitmap *batt_20;
-GBitmap *batt_10;
-GBitmap *batt_charge;
+static GBitmap *smonth_image;
+static BitmapLayer *smonth_layer;
 
-InverterLayer *inverter_layer = NULL;
+const int SMONTH_IMAGE_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_SJAN,
+  RESOURCE_ID_IMAGE_SFEB,
+  RESOURCE_ID_IMAGE_SMAR,
+  RESOURCE_ID_IMAGE_SAPR,
+  RESOURCE_ID_IMAGE_SMAY,
+  RESOURCE_ID_IMAGE_SJUN,
+  RESOURCE_ID_IMAGE_SJUL,
+  RESOURCE_ID_IMAGE_SAUG,
+  RESOURCE_ID_IMAGE_SSEP,
+  RESOURCE_ID_IMAGE_SOCT,
+  RESOURCE_ID_IMAGE_SNOV,
+  RESOURCE_ID_IMAGE_SDEC
+};
 
+/*static GBitmap *jmonth_image;
+static BitmapLayer *jmonth_layer;
 
-void set_invert_color(bool invert) {
-  if (invert && inverter_layer == NULL) {
-    // Add inverter layer
-    Layer *window_layer = window_get_root_layer(window);
+const int JMONTH_IMAGE_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_CJAN,
+  RESOURCE_ID_IMAGE_CFEB,
+  RESOURCE_ID_IMAGE_CMAR,
+  RESOURCE_ID_IMAGE_CAPR,
+  RESOURCE_ID_IMAGE_CMAY,
+  RESOURCE_ID_IMAGE_CJUN,
+  RESOURCE_ID_IMAGE_CJUL,
+  RESOURCE_ID_IMAGE_CAUG,
+  RESOURCE_ID_IMAGE_CSEP,
+  RESOURCE_ID_IMAGE_COCT,
+  RESOURCE_ID_IMAGE_CNOV,
+  RESOURCE_ID_IMAGE_CDEC
+};
+*/
 
-    inverter_layer = inverter_layer_create(GRect(0, 0, 144, 168));
-    layer_add_child(window_layer, inverter_layer_get_layer(inverter_layer));
-  } else if (!invert && inverter_layer != NULL) {
-    // Remove Inverter layer
-    layer_remove_from_parent(inverter_layer_get_layer(inverter_layer));
-    inverter_layer_destroy(inverter_layer);
-    inverter_layer = NULL;
-  }
-  // No action required
-}
 
 void hidebatt (bool battbar) {
 	
@@ -284,6 +389,248 @@ void hidebatt (bool battbar) {
 	  } else {
 		  	  	   layer_set_hidden(bitmap_layer_get_layer(layer_batt_img), false);
 	  }
+}
+
+void set_invert_color(bool invert) {
+  if (invert && effect_layer_inv == NULL) {
+    // Add inverter layer
+    Layer *window_layer = window_get_root_layer(window);
+
+    effect_layer_inv = effect_layer_create(GRect(0, 12, 144, 156));
+    layer_add_child(window_layer, effect_layer_get_layer(effect_layer_inv));
+    effect_layer_add_effect(effect_layer_inv, effect_invert, NULL);
+	  
+  } else if (!invert && effect_layer_inv != NULL) {
+    // Remove Inverter layer
+   layer_remove_from_parent(effect_layer_get_layer(effect_layer_inv));
+    effect_layer_destroy(effect_layer_inv);
+    effect_layer_inv = NULL;
+  }
+  // No action required
+}
+
+void change_language() {
+
+    switch (language) {
+		case 0: //english
+		
+			layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(smonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(sday_name_layer), true);
+	//		layer_set_hidden(bitmap_layer_get_layer(ja_day_name_layer), true);
+	//		layer_set_hidden(bitmap_layer_get_layer(jmonth_layer), true);
+		    layer_set_hidden(bitmap_layer_get_layer(gmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(gday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(fday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(fmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(iday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(imonth_layer), true);
+	 		layer_set_hidden(bitmap_layer_get_layer(rday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(rmonth_layer), true);
+		    layer_set_hidden(bitmap_layer_get_layer(cmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(cday_name_layer), true);
+		
+	        layer_set_hidden(bitmap_layer_get_layer(month_layer), false);
+			layer_set_hidden(bitmap_layer_get_layer(day_name_layer), false);
+		break;
+		
+		case 1:  //german
+		
+			layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(smonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(sday_name_layer), true);
+	//		layer_set_hidden(bitmap_layer_get_layer(ja_day_name_layer), true);
+	//		layer_set_hidden(bitmap_layer_get_layer(jmonth_layer), true);
+		    layer_set_hidden(bitmap_layer_get_layer(month_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(day_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(fday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(fmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(iday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(imonth_layer), true);
+	 		layer_set_hidden(bitmap_layer_get_layer(rday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(rmonth_layer), true);
+		    layer_set_hidden(bitmap_layer_get_layer(cmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(cday_name_layer), true);
+		
+	        layer_set_hidden(bitmap_layer_get_layer(gmonth_layer), false);
+			layer_set_hidden(bitmap_layer_get_layer(gday_name_layer), false);		
+		
+		
+			break;
+			
+		case 2:  //french		
+		
+			layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(smonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(sday_name_layer), true);
+	//		layer_set_hidden(bitmap_layer_get_layer(ja_day_name_layer), true);
+	//		layer_set_hidden(bitmap_layer_get_layer(jmonth_layer), true);
+		    layer_set_hidden(bitmap_layer_get_layer(gmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(gday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(day_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(month_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(iday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(imonth_layer), true);
+	 		layer_set_hidden(bitmap_layer_get_layer(rday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(rmonth_layer), true);
+		    layer_set_hidden(bitmap_layer_get_layer(cmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(cday_name_layer), true);
+		
+	        layer_set_hidden(bitmap_layer_get_layer(fmonth_layer), false);
+			layer_set_hidden(bitmap_layer_get_layer(fday_name_layer), false);		
+		
+			break;
+			
+		case 3:  //italian
+		
+			layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(smonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(sday_name_layer), true);
+		//	layer_set_hidden(bitmap_layer_get_layer(ja_day_name_layer), true);
+		//	layer_set_hidden(bitmap_layer_get_layer(jmonth_layer), true);
+		    layer_set_hidden(bitmap_layer_get_layer(gmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(gday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(fday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(fmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(day_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(month_layer), true);
+	 		layer_set_hidden(bitmap_layer_get_layer(rday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(rmonth_layer), true);
+		    layer_set_hidden(bitmap_layer_get_layer(cmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(cday_name_layer), true);
+		
+	        layer_set_hidden(bitmap_layer_get_layer(imonth_layer), false);
+			layer_set_hidden(bitmap_layer_get_layer(iday_name_layer), false);		
+		
+		
+			break;
+		
+		case 4:  //russian	
+		
+			layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(smonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(sday_name_layer), true);
+		//	layer_set_hidden(bitmap_layer_get_layer(ja_day_name_layer), true);
+		//	layer_set_hidden(bitmap_layer_get_layer(jmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(gmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(gday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(fday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(fmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(iday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(imonth_layer), true);
+	 		layer_set_hidden(bitmap_layer_get_layer(day_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(month_layer), true);
+		    layer_set_hidden(bitmap_layer_get_layer(cmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(cday_name_layer), true);
+		
+	        layer_set_hidden(bitmap_layer_get_layer(rmonth_layer), false);
+			layer_set_hidden(bitmap_layer_get_layer(rday_name_layer), false);		
+		
+			break;
+		
+		case 5:  //chinese	
+
+			layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(smonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(sday_name_layer), true);
+		//	layer_set_hidden(bitmap_layer_get_layer(ja_day_name_layer), true);
+		//	layer_set_hidden(bitmap_layer_get_layer(jmonth_layer), true);
+		    layer_set_hidden(bitmap_layer_get_layer(gmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(gday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(fday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(fmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(iday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(imonth_layer), true);
+	 		layer_set_hidden(bitmap_layer_get_layer(rday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(rmonth_layer), true);
+		    layer_set_hidden(bitmap_layer_get_layer(month_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(day_name_layer), true);
+		
+	        layer_set_hidden(bitmap_layer_get_layer(cmonth_layer), false);
+			layer_set_hidden(bitmap_layer_get_layer(cday_name_layer), false);		
+		
+			break;
+
+		case 6:  //korean	
+		
+			layer_set_hidden(bitmap_layer_get_layer(smonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(sday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(cmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(cday_name_layer), true);
+		//	layer_set_hidden(bitmap_layer_get_layer(ja_day_name_layer), true);
+		//	layer_set_hidden(bitmap_layer_get_layer(jmonth_layer), true);
+		    layer_set_hidden(bitmap_layer_get_layer(gmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(gday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(fday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(fmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(iday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(imonth_layer), true);
+	 		layer_set_hidden(bitmap_layer_get_layer(rday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(rmonth_layer), true);
+		    layer_set_hidden(bitmap_layer_get_layer(month_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(day_name_layer), true);
+		
+	        layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), false);
+			layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), false);		
+		
+			break;
+		
+		case 7:  //spanish	
+		
+			layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(cmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(cday_name_layer), true);
+	//		layer_set_hidden(bitmap_layer_get_layer(ja_day_name_layer), true);
+	//		layer_set_hidden(bitmap_layer_get_layer(jmonth_layer), true);
+		    layer_set_hidden(bitmap_layer_get_layer(gmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(gday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(fday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(fmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(iday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(imonth_layer), true);
+	 		layer_set_hidden(bitmap_layer_get_layer(rday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(rmonth_layer), true);
+		    layer_set_hidden(bitmap_layer_get_layer(month_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(day_name_layer), true);
+		
+	        layer_set_hidden(bitmap_layer_get_layer(smonth_layer), false);
+			layer_set_hidden(bitmap_layer_get_layer(sday_name_layer), false);		
+		
+			break;
+	/*
+	
+		case 8:  //japanese	
+		
+			layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(smonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(sday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(cday_name_layer), true);
+	        layer_set_hidden(bitmap_layer_get_layer(cmonth_layer), true);
+		    layer_set_hidden(bitmap_layer_get_layer(gmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(gday_name_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(fday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(fmonth_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(iday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(imonth_layer), true);
+	 		layer_set_hidden(bitmap_layer_get_layer(rday_name_layer), true);
+            layer_set_hidden(bitmap_layer_get_layer(rmonth_layer), true);
+		    layer_set_hidden(bitmap_layer_get_layer(month_layer), true);
+			layer_set_hidden(bitmap_layer_get_layer(day_name_layer), true);
+		
+	        layer_set_hidden(bitmap_layer_get_layer(jmonth_layer), false);
+			layer_set_hidden(bitmap_layer_get_layer(ja_day_name_layer), false);		
+		
+			break; */
+		
+    }    
 }
 
 static void handle_tick(struct tm *tick_time, TimeUnits units_changed);
@@ -299,6 +646,7 @@ static void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tup
       }
       else {
         tick_timer_service_subscribe(MINUTE_UNIT, handle_tick);
+		layer_set_hidden(bitmap_layer_get_layer(separator_layer), true);
 	  }
 	  
       break;
@@ -322,85 +670,33 @@ static void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tup
       battbar = new_tuple->value->uint8 != 0;
 	  persist_write_bool(BATTBAR_KEY, battbar);
 	  hidebatt (battbar);
+
       break;
-	  
-	/*case ITALIAN_KEY:
-      italianlang = new_tuple->value->uint8 != 0;
-	  persist_write_bool(ITALIAN_KEY, italianlang);	  
-	
-		if (italianlang) {
-	  	   layer_set_hidden(bitmap_layer_get_layer(iday_name_layer), false);
-	  	   layer_set_hidden(bitmap_layer_get_layer(imonth_layer), false);
-        }  else {
-	  		layer_set_hidden(bitmap_layer_get_layer(iday_name_layer), true);
-            layer_set_hidden(bitmap_layer_get_layer(imonth_layer), true);
-        }
-      break;
-	  
-	case FRENCH_KEY:
-      frenchlang = new_tuple->value->uint8 != 0;
-	  persist_write_bool(FRENCH_KEY, frenchlang);	  
-	
-		if (frenchlang) {
-	  	   layer_set_hidden(bitmap_layer_get_layer(fday_name_layer), false);
-	  	   layer_set_hidden(bitmap_layer_get_layer(fmonth_layer), false);
-        }  else {
-	  		layer_set_hidden(bitmap_layer_get_layer(fday_name_layer), true);
-            layer_set_hidden(bitmap_layer_get_layer(fmonth_layer), true);
-        }
-      break;
-	  
-	case RUSSIAN_KEY:
-      russianlang = new_tuple->value->uint8 != 0;
-	  persist_write_bool(RUSSIAN_KEY, russianlang);	  
-	
-		if (russianlang) {
-	  	   layer_set_hidden(bitmap_layer_get_layer(rday_name_layer), false);
-	  	   layer_set_hidden(bitmap_layer_get_layer(rmonth_layer), false);
-        }  else {
-	  		layer_set_hidden(bitmap_layer_get_layer(rday_name_layer), true);
-            layer_set_hidden(bitmap_layer_get_layer(rmonth_layer), true);
-        }
-      break;
-	  
-	case GERMAN_KEY:
-      germanlang = new_tuple->value->uint8 != 0;
-	  persist_write_bool(GERMAN_KEY, germanlang);	  
-	
-		if (germanlang) {
-		   layer_set_hidden(bitmap_layer_get_layer(gday_name_layer), false);
-		   layer_set_hidden(bitmap_layer_get_layer(gmonth_layer), false);
-        }  else {
-            layer_set_hidden(bitmap_layer_get_layer(gmonth_layer), true);
-			layer_set_hidden(bitmap_layer_get_layer(gday_name_layer), true);
-        }
-      break;
-	  
-	case CHINESE_KEY:
-      chlang = new_tuple->value->uint8 != 0;
-	  persist_write_bool(CHINESE_KEY, chlang);	  
-	
-		if (chlang) {
-		   layer_set_hidden(bitmap_layer_get_layer(cday_name_layer), false);
-		   layer_set_hidden(bitmap_layer_get_layer(cmonth_layer), false);
-        }  else {
-            layer_set_hidden(bitmap_layer_get_layer(cmonth_layer), true);
-			layer_set_hidden(bitmap_layer_get_layer(cday_name_layer), true);
-        }
-      break;*/
+	    
+    case LANGUAGE_KEY:
+		language = new_tuple->value->uint8;
+		persist_write_bool(LANGUAGE_KEY, language);
+		change_language();
+	break;
   }
 }
 
 static void set_container_image(GBitmap **bmp_image, BitmapLayer *bmp_layer, const int resource_id, GPoint origin) {
   GBitmap *old_image = *bmp_image;
-  *bmp_image = gbitmap_create_from_pbt(resource_id);
-  GRect frame = (GRect) {
-    .origin = origin,
-    .size = (*bmp_image)->bounds.size
-  };
+
+  *bmp_image = gbitmap_create_with_resource(resource_id);
+#ifdef PBL_PLATFORM_BASALT
+  GRect bitmap_bounds = gbitmap_get_bounds((*bmp_image));
+#else
+  GRect bitmap_bounds = (*bmp_image)->bounds;
+#endif
+  GRect frame = GRect(origin.x, origin.y, bitmap_bounds.size.w, bitmap_bounds.size.h);
   bitmap_layer_set_bitmap(bmp_layer, *bmp_image);
   layer_set_frame(bitmap_layer_get_layer(bmp_layer), frame);
-  gbitmap_destroy(old_image);
+
+  if (old_image != NULL) {
+  	gbitmap_destroy(old_image);
+  }
 }
 
 
@@ -408,49 +704,34 @@ static void update_battery(BatteryChargeState charge_state) {
 
   batteryPercent = charge_state.charge_percent;
 
-	if (charge_state.is_charging) {
-        bitmap_layer_set_bitmap(layer_batt_img, batt_charge);		
-    } else {
+    if (charge_state.is_charging) {
+        bitmap_layer_set_bitmap(layer_batt_img, img_battery_charge);
+	} else {
+	
         if (charge_state.charge_percent <= 10) {
-            bitmap_layer_set_bitmap(layer_batt_img, batt_10);
+            bitmap_layer_set_bitmap(layer_batt_img, img_battery_10);
         } else if (charge_state.charge_percent <= 20) {
-            bitmap_layer_set_bitmap(layer_batt_img, batt_20);
-        } else if (charge_state.charge_percent <= 30) {
-            bitmap_layer_set_bitmap(layer_batt_img, batt_30);
+            bitmap_layer_set_bitmap(layer_batt_img, img_battery_20);
+		} else if (charge_state.charge_percent <= 30) {
+            bitmap_layer_set_bitmap(layer_batt_img, img_battery_30);
 		} else if (charge_state.charge_percent <= 40) {
-            bitmap_layer_set_bitmap(layer_batt_img, batt_40);
+            bitmap_layer_set_bitmap(layer_batt_img, img_battery_40);
 		} else if (charge_state.charge_percent <= 50) {
-            bitmap_layer_set_bitmap(layer_batt_img, batt_50);
-    	} else if (charge_state.charge_percent <= 60) {
-            bitmap_layer_set_bitmap(layer_batt_img, batt_60);	
-        } else if (charge_state.charge_percent <= 70) {
-            bitmap_layer_set_bitmap(layer_batt_img, batt_70);
+            bitmap_layer_set_bitmap(layer_batt_img, img_battery_50);
+        } else if (charge_state.charge_percent <= 60) {
+            bitmap_layer_set_bitmap(layer_batt_img, img_battery_60);
+		} else if (charge_state.charge_percent <= 70) {
+            bitmap_layer_set_bitmap(layer_batt_img, img_battery_70);
 		} else if (charge_state.charge_percent <= 80) {
-            bitmap_layer_set_bitmap(layer_batt_img, batt_80);
+            bitmap_layer_set_bitmap(layer_batt_img, img_battery_80);
 		} else if (charge_state.charge_percent <= 90) {
-            bitmap_layer_set_bitmap(layer_batt_img, batt_90);
-		} else if (charge_state.charge_percent <= 100) {
-            bitmap_layer_set_bitmap(layer_batt_img, batt_100);					
-		}
-	
-	
-	if(batteryPercent>=99) {	
-	layer_set_hidden(bitmap_layer_get_layer(y), false);
-
-    for (int i = 0; i < TOTAL_BATTERY_PERCENT_DIGITS; ++i) {
-      layer_set_hidden(bitmap_layer_get_layer(battery_percent_layers[i]), true);
-    }
-    return;
-  }
-  layer_set_hidden(bitmap_layer_get_layer(y), true);
-	
- for (int i = 0; i < TOTAL_BATTERY_PERCENT_DIGITS; ++i) {
-    layer_set_hidden(bitmap_layer_get_layer(battery_percent_layers[i]), false);
-  }  
-  set_container_image(&battery_percent_image[0], battery_percent_layers[0], TINY_IMAGE_RESOURCE_IDS[charge_state.charge_percent/10], GPoint(5, 131));
-  set_container_image(&battery_percent_image[1], battery_percent_layers[1], TINY_IMAGE_RESOURCE_IDS[charge_state.charge_percent%10], GPoint(5, 139));
-  set_container_image(&battery_percent_image[2], battery_percent_layers[2], TINY_IMAGE_RESOURCE_IDS[10], GPoint(5, 147));
-}
+            bitmap_layer_set_bitmap(layer_batt_img, img_battery_90);
+		} else if (charge_state.charge_percent <= 99) {
+            bitmap_layer_set_bitmap(layer_batt_img, img_battery_100);
+		} else {
+            bitmap_layer_set_bitmap(layer_batt_img, img_battery_100);
+        } 	
+	}
 }
 
 
@@ -466,7 +747,6 @@ void bluetooth_connection_callback(bool connected) {
   toggle_bluetooth_icon(connected);
 }
 
-
 unsigned short get_display_hour(unsigned short hour) {
   if (clock_is_24h_style()) {
     return hour;
@@ -477,17 +757,34 @@ unsigned short get_display_hour(unsigned short hour) {
 }
 
 static void update_days(struct tm *tick_time) {
-  set_container_image(&day_name_image, day_name_layer, DAY_NAME_IMAGE_RESOURCE_IDS[lang][tick_time->tm_wday], GPoint(day_x_pos[lang], 16));
 
-  set_container_image(&date_digits_images[0], date_digits_layers[0], DATENUM_IMAGE_RESOURCE_IDS[tick_time->tm_mday/10], GPoint(75,139));
-  set_container_image(&date_digits_images[1], date_digits_layers[1], DATENUM_IMAGE_RESOURCE_IDS[tick_time->tm_mday%10], GPoint(75, 147));
+//  set_container_image(&ja_day_name_image, ja_day_name_layer, DAY_NAME_IMAGE_JAPANESE_RESOURCE_IDS[tick_time->tm_wday], GPoint(73, 18));
+  set_container_image(&sday_name_image, sday_name_layer, DAY_NAME_IMAGE_SPANISH_RESOURCE_IDS[tick_time->tm_wday], GPoint(73, 18));
+  set_container_image(&kday_name_image, kday_name_layer, DAY_NAME_IMAGE_KOREAN_RESOURCE_IDS[tick_time->tm_wday], GPoint(73, 18));
+  set_container_image(&cday_name_image, cday_name_layer, DAY_NAME_IMAGE_CHINESE_RESOURCE_IDS[tick_time->tm_wday], GPoint(73, 18));
+  set_container_image(&iday_name_image, iday_name_layer, DAY_NAME_IMAGE_ITALIAN_RESOURCE_IDS[tick_time->tm_wday], GPoint(73, 18));
+  set_container_image(&fday_name_image, fday_name_layer, DAY_NAME_IMAGE_FRENCH_RESOURCE_IDS[tick_time->tm_wday], GPoint(72, 18));
+  set_container_image(&rday_name_image, rday_name_layer, DAY_NAME_IMAGE_RUSSIAN_RESOURCE_IDS[tick_time->tm_wday], GPoint(72, 18));
+  set_container_image(&gday_name_image, gday_name_layer, DAY_NAME_IMAGE_GERMAN_RESOURCE_IDS[tick_time->tm_wday], GPoint(73, 18));
+  set_container_image(&day_name_image, day_name_layer, DAY_NAME_IMAGE_RESOURCE_IDS[tick_time->tm_wday], GPoint(76, 18));
+	
+  set_container_image(&date_digits_images[0], date_digits_layers[0], DATENUM_IMAGE_RESOURCE_IDS[tick_time->tm_mday/10], GPoint(75,141));
+  set_container_image(&date_digits_images[1], date_digits_layers[1], DATENUM_IMAGE_RESOURCE_IDS[tick_time->tm_mday%10], GPoint(75, 149));
 }
 
 //DRAW MONTH
 	
 static void update_months(struct tm *tick_time) {	
-  set_container_image(&month_image, month_layer, MONTH_IMAGE_RESOURCE_IDS[lang][tick_time->tm_mon], GPoint(month_x_pos[lang], 16));
-
+	
+  set_container_image(&gmonth_image, gmonth_layer, GMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(2, 18));
+  set_container_image(&rmonth_image, rmonth_layer, RMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(2, 18));
+  set_container_image(&fmonth_image, fmonth_layer, FMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(3, 18));
+  set_container_image(&imonth_image, imonth_layer, IMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(3, 18));
+  set_container_image(&cmonth_image, cmonth_layer, CMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(3, 18));
+  set_container_image(&kmonth_image, kmonth_layer, KMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(3, 18));
+  set_container_image(&smonth_image, smonth_layer, SMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(3, 18));
+//  set_container_image(&jmonth_image, jmonth_layer, JMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(3, 18));
+  set_container_image(&month_image, month_layer, MONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(5, 18));
 }
 
 static void update_hours(struct tm *tick_time) {
@@ -499,11 +796,10 @@ static void update_hours(struct tm *tick_time) {
   
   unsigned short display_hour = get_display_hour(tick_time->tm_hour);
 
-  set_container_image(&time_digits_images[0], time_digits_layers[0], BIG_DIGIT_IMAGE_RESOURCE_IDS[display_hour/10], GPoint(22, 16));
-  set_container_image(&time_digits_images[1], time_digits_layers[1], BIG_DIGIT_IMAGE_RESOURCE_IDS[display_hour%10], GPoint(46, 16));
+  set_container_image(&time_digits_images[0], time_digits_layers[0], BIG_DIGIT_IMAGE_RESOURCE_IDS[display_hour/10], GPoint(22, 18));
+  set_container_image(&time_digits_images[1], time_digits_layers[1], BIG_DIGIT_IMAGE_RESOURCE_IDS[display_hour%10], GPoint(46, 18));
 
   if (!clock_is_24h_style()) {
-    
     
     if (display_hour/10 == 0) {
       layer_set_hidden(bitmap_layer_get_layer(time_digits_layers[0]), true);
@@ -511,20 +807,21 @@ static void update_hours(struct tm *tick_time) {
     else {
       layer_set_hidden(bitmap_layer_get_layer(time_digits_layers[0]), false);
     }
-
   }
 }
+
 static void update_minutes(struct tm *tick_time) {
-  set_container_image(&time_digits_images[2], time_digits_layers[2], BIG_DIGIT_IMAGE_RESOURCE_IDS[tick_time->tm_min/10], GPoint(96, 16));
-  set_container_image(&time_digits_images[3], time_digits_layers[3], BIG_DIGIT_IMAGE_RESOURCE_IDS[tick_time->tm_min%10], GPoint(120, 16));
+  set_container_image(&time_digits_images[2], time_digits_layers[2], BIG_DIGIT_IMAGE_RESOURCE_IDS[tick_time->tm_min/10], GPoint(96, 18));
+  set_container_image(&time_digits_images[3], time_digits_layers[3], BIG_DIGIT_IMAGE_RESOURCE_IDS[tick_time->tm_min%10], GPoint(120, 18));
 }
+
 static void update_seconds(struct tm *tick_time) {
   if(blink) {
     layer_set_hidden(bitmap_layer_get_layer(separator_layer), tick_time->tm_sec%2);
   }
   else {
     if(layer_get_hidden(bitmap_layer_get_layer(separator_layer))) {
-      layer_set_hidden(bitmap_layer_get_layer(separator_layer), false);
+      layer_set_hidden(bitmap_layer_get_layer(separator_layer), true);
     }
   }
 }
@@ -541,32 +838,23 @@ static void handle_tick(struct tm *tick_time, TimeUnits units_changed) {
   }
   if (units_changed & MINUTE_UNIT) {
     update_minutes(tick_time);
-      // testing languages changing every minute
-      lang=(lang+1)%6;
-      update_months(tick_time);
-      update_days(tick_time);
   }	
   if (units_changed & SECOND_UNIT) {
     update_seconds(tick_time);
   }		
 }
 
-void set_style(void) {
-    background_color  = GColorBlack;
-    window_set_background_color(window, background_color);
-}
-
 static void init(void) {
+	
+  const int inbound_size = 256;
+  const int outbound_size = 256;
+  app_message_open(inbound_size, outbound_size);  
+
   memset(&time_digits_layers, 0, sizeof(time_digits_layers));
   memset(&time_digits_images, 0, sizeof(time_digits_images));
   memset(&date_digits_layers, 0, sizeof(date_digits_layers));
   memset(&date_digits_images, 0, sizeof(date_digits_images));
-  memset(&battery_percent_layers, 0, sizeof(battery_percent_layers));
-  memset(&battery_percent_image, 0, sizeof(battery_percent_image));
 
-  const int inbound_size = 256;
-  const int outbound_size = 256;
-  app_message_open(inbound_size, outbound_size);  
 
   window = window_create();
   if (window == NULL) {
@@ -574,48 +862,43 @@ static void init(void) {
       return;
   }
 	
-set_style();
+  window_set_background_color(window, GColorBlack);
 
   window_stack_push(window, true /* Animated */);
   window_layer = window_get_root_layer(window);
+
 	
-  batt_100   = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_090_100);
-  batt_90   = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_080_090);
-  batt_80   = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_070_080);
-  batt_70   = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_060_070);
-  batt_60   = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_050_060);
-  batt_50   = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_040_050);
-  batt_40   = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_030_040);
-  batt_30    = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_020_030);
-  batt_20    = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_010_020);
-  batt_10    = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_000_010);
-  batt_charge = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_CHARGING);
+  img_battery_100   = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_100);
+  img_battery_90   = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_90);
+  img_battery_80   = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_80);
+  img_battery_70   = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_70);
+  img_battery_60   = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_60);
+  img_battery_50   = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_50);
+  img_battery_40   = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_40);
+  img_battery_30   = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_30);
+  img_battery_20    = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_20);
+  img_battery_10    = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_10);
+  img_battery_charge = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATT_CHARGING);
+
+  layer_batt_img  = bitmap_layer_create(GRect(7, 1, 130, 3));
+  bitmap_layer_set_bitmap(layer_batt_img, img_battery_100);
+  layer_add_child(window_layer, bitmap_layer_get_layer(layer_batt_img));
 	
-  layer_batt_img  = bitmap_layer_create(GRect(7, 1, 130, 5));
-  bitmap_layer_set_bitmap(layer_batt_img, batt_100);
-  layer_add_child(window_layer, bitmap_layer_get_layer(layer_batt_img));	
 	
   separator_image = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_SEPARATOR);
-  GRect frame = (GRect) {
-    .origin = { .x = 75, .y = 130 },
-    .size = separator_image->bounds.size
-  };
+#ifdef PBL_PLATFORM_BASALT
+  GRect bitmap_bounds = gbitmap_get_bounds(separator_image);
+#else
+  GRect bitmap_bounds = separator_image->bounds;
+#endif	
+  GRect frame = GRect(75, 131, bitmap_bounds.size.w, bitmap_bounds.size.h);
   separator_layer = bitmap_layer_create(frame);
   bitmap_layer_set_bitmap(separator_layer, separator_image);
   layer_add_child(window_layer, bitmap_layer_get_layer(separator_layer));   
 
-  x = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTERY);
-  GRect frame4 = (GRect) {
-    .origin = { .x = 5, .y = 127 },
-    .size = x->bounds.size
-  };
-  z = bitmap_layer_create(frame4);
-  y = bitmap_layer_create(frame4);
-  bitmap_layer_set_bitmap(y, x);
+
+
 	
-  layer_add_child(window_layer, bitmap_layer_get_layer(y));
-  layer_add_child(window_layer, bitmap_layer_get_layer(z));
-  
   // Create time and date layers
   GRect dummy_frame = { {0, 0}, {0, 0} };
 	
@@ -624,7 +907,7 @@ set_style();
    month_layer = bitmap_layer_create(dummy_frame);
    layer_add_child(window_layer, bitmap_layer_get_layer(month_layer));
 	
-   /*gday_name_layer = bitmap_layer_create(dummy_frame);
+   gday_name_layer = bitmap_layer_create(dummy_frame);
    layer_add_child(window_layer, bitmap_layer_get_layer(gday_name_layer));
    gmonth_layer = bitmap_layer_create(dummy_frame);
    layer_add_child(window_layer, bitmap_layer_get_layer(gmonth_layer));
@@ -647,8 +930,23 @@ set_style();
    cday_name_layer = bitmap_layer_create(dummy_frame);
    layer_add_child(window_layer, bitmap_layer_get_layer(cday_name_layer));	
    cmonth_layer = bitmap_layer_create(dummy_frame);
-   layer_add_child(window_layer, bitmap_layer_get_layer(cmonth_layer));*/
-	
+   layer_add_child(window_layer, bitmap_layer_get_layer(cmonth_layer));
+		
+   kday_name_layer = bitmap_layer_create(dummy_frame);
+   layer_add_child(window_layer, bitmap_layer_get_layer(kday_name_layer));	
+   kmonth_layer = bitmap_layer_create(dummy_frame);
+   layer_add_child(window_layer, bitmap_layer_get_layer(kmonth_layer));
+
+   sday_name_layer = bitmap_layer_create(dummy_frame);
+   layer_add_child(window_layer, bitmap_layer_get_layer(sday_name_layer));	
+   smonth_layer = bitmap_layer_create(dummy_frame);
+   layer_add_child(window_layer, bitmap_layer_get_layer(smonth_layer));
+
+//   ja_day_name_layer = bitmap_layer_create(dummy_frame);
+//   layer_add_child(window_layer, bitmap_layer_get_layer(ja_day_name_layer));	
+//   jmonth_layer = bitmap_layer_create(dummy_frame);
+//   layer_add_child(window_layer, bitmap_layer_get_layer(jmonth_layer));
+
   for (int i = 0; i < TOTAL_TIME_DIGITS; ++i) {
     time_digits_layers[i] = bitmap_layer_create(dummy_frame);
     layer_add_child(window_layer, bitmap_layer_get_layer(time_digits_layers[i]));
@@ -658,19 +956,45 @@ set_style();
     date_digits_layers[i] = bitmap_layer_create(dummy_frame);
     layer_add_child(window_layer, bitmap_layer_get_layer(date_digits_layers[i]));
   }
-  for (int i = 0; i < TOTAL_BATTERY_PERCENT_DIGITS; ++i) {
-    battery_percent_layers[i] = bitmap_layer_create(dummy_frame);
-    layer_add_child(window_layer, bitmap_layer_get_layer(battery_percent_layers[i]));
-  }
-  
-  bluetooth_image = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BLUETOOTH);
-  GRect frame3 = (GRect) {
-    .origin = { .x = 4, .y = 127 },
-    .size = bluetooth_image->bounds.size
-  };
-  bluetooth_layer = bitmap_layer_create(frame3);
+	
+
+ 
+  bluetooth_image_on = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BLUETOOTHON);
+#ifdef PBL_PLATFORM_BASALT
+  GRect bitmap_bounds_bt_on = gbitmap_get_bounds(bluetooth_image_on);
+#else
+  GRect bitmap_bounds_bt_on = bluetooth_image_on->bounds;
+#endif	
+  GRect frame_bton = GRect(4, 129, bitmap_bounds_bt_on.size.w, bitmap_bounds_bt_on.size.h);
+  bluetooth_layer_on = bitmap_layer_create(frame_bton);
+  bitmap_layer_set_bitmap(bluetooth_layer_on, bluetooth_image_on);
+  layer_add_child(window_layer, bitmap_layer_get_layer(bluetooth_layer_on));
+	
+	
+  bluetooth_image = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BLUETOOTHOFF);
+#ifdef PBL_PLATFORM_BASALT
+  GRect bitmap_bounds2 = gbitmap_get_bounds(bluetooth_image);
+#else
+  GRect bitmap_bounds2 = bluetooth_image->bounds;
+#endif	
+  GRect frame2 = GRect(4, 129, bitmap_bounds2.size.w, bitmap_bounds2.size.h);
+  bluetooth_layer = bitmap_layer_create(frame2);
   bitmap_layer_set_bitmap(bluetooth_layer, bluetooth_image);
   layer_add_child(window_layer, bitmap_layer_get_layer(bluetooth_layer));
+
+	
+
+/*
+effect_layer_add_effect(effect_layer_col, effect_colorize, &colorpair);
+	
+colorpair.firstColor = GColorWhite;
+colorpair.secondColor = GColorWhite;
+#ifdef PBL_COLOR		
+  colorpair.secondColor = GColorGreen;
+#endif
+
+	*/
+	
 	
   toggle_bluetooth_icon(bluetooth_connection_service_peek());
   update_battery(battery_state_service_peek());
@@ -681,12 +1005,7 @@ set_style();
     TupletInteger(BLUETOOTHVIBE_KEY, persist_read_bool(BLUETOOTHVIBE_KEY)),
     TupletInteger(HOURLYVIBE_KEY, persist_read_bool(HOURLYVIBE_KEY)),
     TupletInteger(BATTBAR_KEY, persist_read_bool(BATTBAR_KEY)),
-    TupletInteger(GERMAN_KEY, persist_read_bool(GERMAN_KEY)),
-    TupletInteger(RUSSIAN_KEY, persist_read_bool(RUSSIAN_KEY)),
-    TupletInteger(FRENCH_KEY, persist_read_bool(FRENCH_KEY)),
-    TupletInteger(ITALIAN_KEY, persist_read_bool(ITALIAN_KEY)),
-	TupletInteger(CHINESE_KEY, persist_read_bool(CHINESE_KEY)),
-
+	TupletInteger(LANGUAGE_KEY, persist_read_bool(LANGUAGE_KEY)),
   };
   
   app_sync_init(&sync, sync_buffer, sizeof(sync_buffer), initial_values, ARRAY_LENGTH(initial_values),
@@ -705,6 +1024,7 @@ set_style();
 
 }
 
+
 static void deinit(void) {
   app_sync_deinit(&sync);
   
@@ -720,12 +1040,10 @@ static void deinit(void) {
   bitmap_layer_destroy(bluetooth_layer);
   gbitmap_destroy(bluetooth_image);
   
-  layer_remove_from_parent(bitmap_layer_get_layer(z));
-  bitmap_layer_destroy(z);
-  gbitmap_destroy(x);
-  
-  layer_remove_from_parent(bitmap_layer_get_layer(y));
-  bitmap_layer_destroy(y);
+  layer_remove_from_parent(bitmap_layer_get_layer(bluetooth_layer_on));
+  bitmap_layer_destroy(bluetooth_layer_on);
+  gbitmap_destroy(bluetooth_image_on);
+	
 
   layer_remove_from_parent(bitmap_layer_get_layer(time_format_layer));
   bitmap_layer_destroy(time_format_layer);
@@ -735,7 +1053,7 @@ static void deinit(void) {
   bitmap_layer_destroy(day_name_layer);
   gbitmap_destroy(day_name_image);
 	
-  /*layer_remove_from_parent(bitmap_layer_get_layer(gday_name_layer));
+  layer_remove_from_parent(bitmap_layer_get_layer(gday_name_layer));
   bitmap_layer_destroy(gday_name_layer);
   gbitmap_destroy(gday_name_image);
 	
@@ -753,13 +1071,25 @@ static void deinit(void) {
 	
   layer_remove_from_parent(bitmap_layer_get_layer(cday_name_layer));
   bitmap_layer_destroy(cday_name_layer);
-  gbitmap_destroy(cday_name_image);*/
+  gbitmap_destroy(cday_name_image);
 	
+  layer_remove_from_parent(bitmap_layer_get_layer(kday_name_layer));
+  bitmap_layer_destroy(kday_name_layer);
+  gbitmap_destroy(kday_name_image);
+	
+  layer_remove_from_parent(bitmap_layer_get_layer(sday_name_layer));
+  bitmap_layer_destroy(sday_name_layer);
+  gbitmap_destroy(sday_name_image);
+	
+//  layer_remove_from_parent(bitmap_layer_get_layer(ja_day_name_layer));
+//  bitmap_layer_destroy(ja_day_name_layer);
+//  gbitmap_destroy(ja_day_name_image);
+
   layer_remove_from_parent(bitmap_layer_get_layer(month_layer));
   bitmap_layer_destroy(month_layer);
   gbitmap_destroy(month_image);  
 	
-  /*layer_remove_from_parent(bitmap_layer_get_layer(gmonth_layer));
+  layer_remove_from_parent(bitmap_layer_get_layer(gmonth_layer));
   bitmap_layer_destroy(gmonth_layer);
   gbitmap_destroy(gmonth_image);  
 	
@@ -777,24 +1107,32 @@ static void deinit(void) {
 		
   layer_remove_from_parent(bitmap_layer_get_layer(cmonth_layer));
   bitmap_layer_destroy(cmonth_layer);
-  gbitmap_destroy(cmonth_image);*/
+  gbitmap_destroy(cmonth_image);
 	
+ layer_remove_from_parent(bitmap_layer_get_layer(kmonth_layer));
+  bitmap_layer_destroy(kmonth_layer);
+  gbitmap_destroy(kmonth_image);
+	
+ layer_remove_from_parent(bitmap_layer_get_layer(smonth_layer));
+  bitmap_layer_destroy(smonth_layer);
+  gbitmap_destroy(smonth_image);
+  
+// layer_remove_from_parent(bitmap_layer_get_layer(jmonth_layer));
+//  bitmap_layer_destroy(jmonth_layer);
+//  gbitmap_destroy(jmonth_image);
   	
-  layer_remove_from_parent(bitmap_layer_get_layer(layer_batt_img));
-  bitmap_layer_destroy(layer_batt_img);	
-  gbitmap_destroy(batt_100);
-  gbitmap_destroy(batt_90);
-  gbitmap_destroy(batt_80);
-  gbitmap_destroy(batt_70);
-  gbitmap_destroy(batt_60);
-  gbitmap_destroy(batt_50);
-  gbitmap_destroy(batt_40);
-  gbitmap_destroy(batt_30);
-  gbitmap_destroy(batt_20);
-  gbitmap_destroy(batt_10);
-  gbitmap_destroy(batt_charge);	
-	
 
+  gbitmap_destroy(img_battery_100);
+  gbitmap_destroy(img_battery_90);
+  gbitmap_destroy(img_battery_80);
+  gbitmap_destroy(img_battery_70);
+  gbitmap_destroy(img_battery_60);
+  gbitmap_destroy(img_battery_50);
+  gbitmap_destroy(img_battery_40);
+  gbitmap_destroy(img_battery_30);
+  gbitmap_destroy(img_battery_20);
+  gbitmap_destroy(img_battery_10);
+  gbitmap_destroy(img_battery_charge);	
 	
   for (int i = 0; i < TOTAL_DATE_DIGITS; i++) {
     layer_remove_from_parent(bitmap_layer_get_layer(date_digits_layers[i]));
@@ -808,11 +1146,6 @@ static void deinit(void) {
     bitmap_layer_destroy(time_digits_layers[i]);
   }
 
-  for (int i = 0; i < TOTAL_BATTERY_PERCENT_DIGITS; i++) {
-    layer_remove_from_parent(bitmap_layer_get_layer(battery_percent_layers[i]));
-    gbitmap_destroy(battery_percent_image[i]);
-    bitmap_layer_destroy(battery_percent_layers[i]); 
-  } 
 
   layer_remove_from_parent(window_layer);
   layer_destroy(window_layer);
