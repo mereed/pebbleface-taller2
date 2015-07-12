@@ -3,10 +3,11 @@
         "battbar": 5,
         "blink": 0,
         "bluetoothvibe": 2,
-        "colour": 6,
+        "hour_col": 6,
         "hourlyvibe": 3,
         "invert": 1,
-        "language": 4
+        "language": 4,
+        "min_col": 7
     },
     "capabilities": [
         "configurable"

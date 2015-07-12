@@ -29,6 +29,8 @@ function saveLocalData(config) {
   localStorage.setItem("hourlyvibe", parseInt(config.hourlyvibe)); 
   localStorage.setItem("battbar", parseInt(config.battbar)); 
   localStorage.setItem("language", parseInt(config.language)); 
+  localStorage.setItem("hour_col", parseInt(config.hour_col)); 
+  localStorage.setItem("min_col", parseInt(config.min_col)); 
   
   loadLocalData();
 
@@ -41,6 +43,8 @@ function loadLocalData() {
 	mConfig.hourlyvibe = parseInt(localStorage.getItem("hourlyvibe"));
 	mConfig.battbar = parseInt(localStorage.getItem("battbar"));
 	mConfig.language = parseInt(localStorage.getItem("language"));
+	mConfig.hour_col = parseInt(localStorage.getItem("hour_col"));
+	mConfig.min_col = parseInt(localStorage.getItem("min_col"));
 	mConfig.configureUrl = "http://www.themapman.com/pebblewatch/taller3.html";
 
 	if(isNaN(mConfig.blink)) {
@@ -61,6 +65,12 @@ function loadLocalData() {
 	if(isNaN(mConfig.language)) {
 		mConfig.language = 0;
 	}
+	if(isNaN(mConfig.hour_col)) {
+		mConfig.hour_col = 0;
+	}
+	if(isNaN(mConfig.min_col)) {
+		mConfig.min_col = 0;
+	}
   //console.log("loadLocalData() " + JSON.stringify(mConfig));
 }
 function returnConfigToPebble() {
@@ -72,5 +82,7 @@ function returnConfigToPebble() {
     "hourlyvibe":parseInt(mConfig.hourlyvibe),
     "battbar":parseInt(mConfig.battbar),
     "language":parseInt(mConfig.language),
+    "hour_col":parseInt(mConfig.hour_col),
+    "min_col":parseInt(mConfig.min_col),
   });    
 }
