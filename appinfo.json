@@ -3,11 +3,11 @@
         "battbar": 5,
         "blink": 0,
         "bluetoothvibe": 2,
-        "hour_col": 6,
+        "hour_colour": 6,
         "hourlyvibe": 3,
         "invert": 1,
         "language": 4,
-        "min_col": 7
+        "min_colour": 7
     },
     "capabilities": [
         "configurable"
@@ -143,66 +143,6 @@
                 "type": "png"
             },
             {
-                "file": "images/taller2-korean-dec.png",
-                "name": "IMAGE_KDEC",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-nov.png",
-                "name": "IMAGE_KNOV",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-oct.png",
-                "name": "IMAGE_KOCT",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-sep.png",
-                "name": "IMAGE_KSEP",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-aug.png",
-                "name": "IMAGE_KAUG",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-jul.png",
-                "name": "IMAGE_KJUL",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-jun.png",
-                "name": "IMAGE_KJUN",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-may.png",
-                "name": "IMAGE_KMAY",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-apr.png",
-                "name": "IMAGE_KAPR",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-mar.png",
-                "name": "IMAGE_KMAR",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-feb.png",
-                "name": "IMAGE_KFEB",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-jan.png",
-                "name": "IMAGE_KJAN",
-                "type": "png"
-            },
-            {
                 "file": "images/taller2-spanish-sat.png",
                 "name": "IMAGE_DAY_NAME_SP_SAT",
                 "type": "png"
@@ -235,41 +175,6 @@
             {
                 "file": "images/taller2-spanish-sun.png",
                 "name": "IMAGE_DAY_NAME_SP_SUN",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-sat.png",
-                "name": "IMAGE_DAY_NAME_KO_SAT",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-fri.png",
-                "name": "IMAGE_DAY_NAME_KO_FRI",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-thu.png",
-                "name": "IMAGE_DAY_NAME_KO_THU",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-wed.png",
-                "name": "IMAGE_DAY_NAME_KO_WED",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-tue.png",
-                "name": "IMAGE_DAY_NAME_KO_TUE",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-mon.png",
-                "name": "IMAGE_DAY_NAME_KO_MON",
-                "type": "png"
-            },
-            {
-                "file": "images/taller2-korean-sun.png",
-                "name": "IMAGE_DAY_NAME_KO_SUN",
                 "type": "png"
             },
             {

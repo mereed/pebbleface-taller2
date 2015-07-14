@@ -1,9 +1,9 @@
 #include "pebble.h"
-#include "effect_layer.h"
+//#include "effect_layer.h"
 
-EffectLayer* effect_layer_inv;
-EffectLayer* effect_layer_col_hr;
-EffectLayer* effect_layer_col_min;
+//EffectLayer* effect_layer_inv;
+//EffectLayer* effect_layer_col_hr;
+//EffectLayer* effect_layer_col_min;
 
 static Window *window;
 static Layer *window_layer;
@@ -19,8 +19,8 @@ static int bluetoothvibe;
 static int hourlyvibe;
 static int battbar;
 static int language;
-static int hour_col;
-static int min_col;
+static int hour_colour;
+static int min_colour;
 
 static bool appStarted = false;
 
@@ -31,19 +31,19 @@ enum {
   HOURLYVIBE_KEY = 0x3,
   LANGUAGE_KEY = 0x4,
   BATTBAR_KEY = 0x5,
-  HOUR_COL_KEY = 0x6,
-  MIN_COL_KEY = 0x7
+  HOUR_COLOUR_KEY = 0x6,
+  MIN_COLOUR_KEY = 0x7
 };
-
+/*
 	// initializing colors
 struct EffectColorpair {
   GColor firstColor;  // first color (target for colorize, one of set in colorswap)
   GColor secondColor; // second color (new color for colorize, other of set in colorswap)
 };
   
-EffectColorpair colorpair_a;
-EffectColorpair colorpair_b;
-
+EffectColorpair colorpair_1;
+EffectColorpair colorpair_2;
+*/
 static GBitmap *separator_image;
 static BitmapLayer *separator_layer;
 
@@ -65,6 +65,40 @@ GBitmap *img_battery_20;
 GBitmap *img_battery_10;
 GBitmap *img_battery_charge;
 BitmapLayer *layer_batt_img;
+
+#define TOTAL_DATE_DIGITS 2	
+static GBitmap *date_digits_images[TOTAL_DATE_DIGITS];
+static BitmapLayer *date_digits_layers[TOTAL_DATE_DIGITS];
+
+const int DATENUM_IMAGE_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_DATENUM_0,
+  RESOURCE_ID_IMAGE_DATENUM_1,
+  RESOURCE_ID_IMAGE_DATENUM_2,
+  RESOURCE_ID_IMAGE_DATENUM_3,
+  RESOURCE_ID_IMAGE_DATENUM_4,
+  RESOURCE_ID_IMAGE_DATENUM_5,
+  RESOURCE_ID_IMAGE_DATENUM_6,
+  RESOURCE_ID_IMAGE_DATENUM_7,
+  RESOURCE_ID_IMAGE_DATENUM_8,
+  RESOURCE_ID_IMAGE_DATENUM_9
+};
+
+#define TOTAL_TIME_DIGITS 4
+static GBitmap *time_digits_images[TOTAL_TIME_DIGITS];
+static BitmapLayer *time_digits_layers[TOTAL_TIME_DIGITS];
+
+const int BIG_DIGIT_IMAGE_RESOURCE_IDS[] = {
+  RESOURCE_ID_IMAGE_NUM_0,
+  RESOURCE_ID_IMAGE_NUM_1,
+  RESOURCE_ID_IMAGE_NUM_2,
+  RESOURCE_ID_IMAGE_NUM_3,
+  RESOURCE_ID_IMAGE_NUM_4,
+  RESOURCE_ID_IMAGE_NUM_5,
+  RESOURCE_ID_IMAGE_NUM_6,
+  RESOURCE_ID_IMAGE_NUM_7,
+  RESOURCE_ID_IMAGE_NUM_8,
+  RESOURCE_ID_IMAGE_NUM_9
+};
 
 static GBitmap *day_name_image;
 static BitmapLayer *day_name_layer;
@@ -143,7 +177,7 @@ const int DAY_NAME_IMAGE_CHINESE_RESOURCE_IDS[] = {
   RESOURCE_ID_IMAGE_DAY_NAME_CH_FRI,
   RESOURCE_ID_IMAGE_DAY_NAME_CH_SAT
 };		
-
+/*
 static GBitmap *kday_name_image;
 static BitmapLayer *kday_name_layer;
 
@@ -156,7 +190,7 @@ const int DAY_NAME_IMAGE_KOREAN_RESOURCE_IDS[] = {
   RESOURCE_ID_IMAGE_DAY_NAME_KO_FRI,
   RESOURCE_ID_IMAGE_DAY_NAME_KO_SAT
 };	
-
+*/
 static GBitmap *sday_name_image;
 static BitmapLayer *sday_name_layer;
 
@@ -169,40 +203,6 @@ const int DAY_NAME_IMAGE_SPANISH_RESOURCE_IDS[] = {
   RESOURCE_ID_IMAGE_DAY_NAME_SP_FRI,
   RESOURCE_ID_IMAGE_DAY_NAME_SP_SAT
 };	
-
-#define TOTAL_DATE_DIGITS 2	
-static GBitmap *date_digits_images[TOTAL_DATE_DIGITS];
-static BitmapLayer *date_digits_layers[TOTAL_DATE_DIGITS];
-
-const int DATENUM_IMAGE_RESOURCE_IDS[] = {
-  RESOURCE_ID_IMAGE_DATENUM_0,
-  RESOURCE_ID_IMAGE_DATENUM_1,
-  RESOURCE_ID_IMAGE_DATENUM_2,
-  RESOURCE_ID_IMAGE_DATENUM_3,
-  RESOURCE_ID_IMAGE_DATENUM_4,
-  RESOURCE_ID_IMAGE_DATENUM_5,
-  RESOURCE_ID_IMAGE_DATENUM_6,
-  RESOURCE_ID_IMAGE_DATENUM_7,
-  RESOURCE_ID_IMAGE_DATENUM_8,
-  RESOURCE_ID_IMAGE_DATENUM_9
-};
-
-#define TOTAL_TIME_DIGITS 4
-static GBitmap *time_digits_images[TOTAL_TIME_DIGITS];
-static BitmapLayer *time_digits_layers[TOTAL_TIME_DIGITS];
-
-const int BIG_DIGIT_IMAGE_RESOURCE_IDS[] = {
-  RESOURCE_ID_IMAGE_NUM_0,
-  RESOURCE_ID_IMAGE_NUM_1,
-  RESOURCE_ID_IMAGE_NUM_2,
-  RESOURCE_ID_IMAGE_NUM_3,
-  RESOURCE_ID_IMAGE_NUM_4,
-  RESOURCE_ID_IMAGE_NUM_5,
-  RESOURCE_ID_IMAGE_NUM_6,
-  RESOURCE_ID_IMAGE_NUM_7,
-  RESOURCE_ID_IMAGE_NUM_8,
-  RESOURCE_ID_IMAGE_NUM_9
-};
 
 static GBitmap *month_image;
 static BitmapLayer *month_layer;
@@ -311,7 +311,7 @@ const int CMONTH_IMAGE_RESOURCE_IDS[] = {
   RESOURCE_ID_IMAGE_CNOV,
   RESOURCE_ID_IMAGE_CDEC
 };
-
+/*
 static GBitmap *kmonth_image;
 static BitmapLayer *kmonth_layer;
 
@@ -329,7 +329,7 @@ const int KMONTH_IMAGE_RESOURCE_IDS[] = {
   RESOURCE_ID_IMAGE_KNOV,
   RESOURCE_ID_IMAGE_KDEC
 };
-
+*/
 static GBitmap *smonth_image;
 static BitmapLayer *smonth_layer;
 
@@ -347,138 +347,138 @@ const int SMONTH_IMAGE_RESOURCE_IDS[] = {
   RESOURCE_ID_IMAGE_SNOV,
   RESOURCE_ID_IMAGE_SDEC
 };
-
+/*
 
 void change_hour() {
 	  
-    switch (hour_col) {
+    switch (hour_colour) {
 		
 		case 0: //white
-  			colorpair_a.firstColor = GColorWhite;		
-  			colorpair_a.secondColor = GColorWhite;
+  			colorpair_1.firstColor = GColorWhite;		
+  			colorpair_1.secondColor = GColorWhite;
   			effect_layer_col_hr  = effect_layer_create(GRect(18,12,52,154));
-  			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_a);
+  			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_1);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_hr));
 		break;	
 		
 		case 1: //green	
-  			colorpair_a.firstColor = GColorWhite;
-  			colorpair_a.secondColor = GColorWhite;
+  			colorpair_1.firstColor = GColorWhite;
+  			colorpair_1.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-  			colorpair_a.secondColor = GColorGreen;
+  			colorpair_1.secondColor = GColorGreen;
 		#endif	
   			effect_layer_col_hr  = effect_layer_create(GRect(18,12,52,154));
-  			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_a);
+  			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_1);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_hr));
 		break;
 
 		case 2: //orange
-			colorpair_a.firstColor = GColorWhite;
-			colorpair_a.secondColor = GColorWhite;
+			colorpair_1.firstColor = GColorWhite;
+			colorpair_1.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-			colorpair_a.secondColor = GColorOrange;
+			colorpair_1.secondColor = GColorOrange;
 		#endif	
 			effect_layer_col_hr  = effect_layer_create(GRect(18,12,52,154));
-			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_a);
+			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_1);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_hr));
 		break;
 
 		case 3: //GColorCyan
-			colorpair_a.firstColor = GColorWhite;
-			colorpair_a.secondColor = GColorWhite;
+			colorpair_1.firstColor = GColorWhite;
+			colorpair_1.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-			colorpair_a.secondColor = GColorCyan ;
+			colorpair_1.secondColor = GColorCyan ;
 		#endif	
 			effect_layer_col_hr  = effect_layer_create(GRect(18,16,50,150));
-			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_a);
+			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_1);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_hr));
 		break;
 		
 		case 4: //yellow
-			colorpair_a.firstColor = GColorWhite;
-			colorpair_a.secondColor = GColorWhite;
+			colorpair_1.firstColor = GColorWhite;
+			colorpair_1.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-			colorpair_a.secondColor = GColorYellow;
+			colorpair_1.secondColor = GColorYellow;
 		#endif	
 			effect_layer_col_hr  = effect_layer_create(GRect(18,12,52,154));
-			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_a);
+			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_1);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_hr));
 		break;
 		
 		case 5: //GColorSunsetOrange 
-			colorpair_a.firstColor = GColorWhite;
-			colorpair_a.secondColor = GColorWhite;
+			colorpair_1.firstColor = GColorWhite;
+			colorpair_1.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-			colorpair_a.secondColor = GColorSunsetOrange;
+			colorpair_1.secondColor = GColorSunsetOrange;
 		#endif	
 			effect_layer_col_hr  = effect_layer_create(GRect(18,12,52,154));
-			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_a);
+			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_1);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_hr));
 		break;
 		
 		case 6: //GColorVividViolet 
-			colorpair_a.firstColor = GColorWhite;
-			colorpair_a.secondColor = GColorWhite;
+			colorpair_1.firstColor = GColorWhite;
+			colorpair_1.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-			colorpair_a.secondColor = GColorVividViolet ;
+			colorpair_1.secondColor = GColorVividViolet ;
 		#endif	
 			effect_layer_col_hr  = effect_layer_create(GRect(18,12,52,154));
-			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_a);
+			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_1);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_hr));
 		break;
 		
 		case 7: //GColorShockingPink  
-			colorpair_a.firstColor = GColorWhite;
-			colorpair_a.secondColor = GColorWhite;
+			colorpair_1.firstColor = GColorWhite;
+			colorpair_1.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-			colorpair_a.secondColor = GColorMagenta ;
+			colorpair_1.secondColor = GColorMagenta ;
 		#endif	
 			effect_layer_col_hr  = effect_layer_create(GRect(18,12,52,154));
-			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_a);
+			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_1);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_hr));
 		break;
 		
 		case 8: //GColorBrightGreen  
-			colorpair_a.firstColor = GColorWhite;
-			colorpair_a.secondColor = GColorWhite;
+			colorpair_1.firstColor = GColorWhite;
+			colorpair_1.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-			colorpair_a.secondColor = GColorBrightGreen  ;
+			colorpair_1.secondColor = GColorBrightGreen  ;
 		#endif	
 			effect_layer_col_hr  = effect_layer_create(GRect(18,12,52,154));
-			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_a);
+			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_1);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_hr));
 		break;
 
 		case 9: //GColorElectricBlue 
-			colorpair_a.firstColor = GColorWhite;
-			colorpair_a.secondColor = GColorWhite;
+			colorpair_1.firstColor = GColorWhite;
+			colorpair_1.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-			colorpair_a.secondColor = GColorElectricBlue ;
+			colorpair_1.secondColor = GColorElectricBlue ;
 		#endif	
 			effect_layer_col_hr  = effect_layer_create(GRect(18,16,50,150));
-			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_a);
+			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_1);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_hr));
 		break;
 		
 		case 10: //GColorChromeYellow 
-			colorpair_a.firstColor = GColorWhite;
-			colorpair_a.secondColor = GColorWhite;
+			colorpair_1.firstColor = GColorWhite;
+			colorpair_1.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-			colorpair_a.secondColor = GColorChromeYellow ;
+			colorpair_1.secondColor = GColorChromeYellow ;
 		#endif	
 			effect_layer_col_hr  = effect_layer_create(GRect(18,12,52,154));
-			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_a);
+			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_1);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_hr));
 		break;
 		
 		case 11: //GColorDarkGray 
-			colorpair_a.firstColor = GColorWhite;
-			colorpair_a.secondColor = GColorWhite;
+			colorpair_1.firstColor = GColorWhite;
+			colorpair_1.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-			colorpair_a.secondColor = GColorDarkGray ;
+			colorpair_1.secondColor = GColorDarkGray ;
 		#endif	
 			effect_layer_col_hr  = effect_layer_create(GRect(18,12,52,154));
-			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_a);
+			effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_1);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_hr));
 		break;
 	}    
@@ -486,154 +486,145 @@ void change_hour() {
 
 void change_min() {
 
-    switch (min_col) {
+    switch (min_colour) {
 		case 0: //white
-  			colorpair_b.firstColor = GColorWhite;
-  			colorpair_b.secondColor = GColorWhite;
+  			colorpair_2.firstColor = GColorWhite;
+  			colorpair_2.secondColor = GColorWhite;
   			effect_layer_col_min  = effect_layer_create(GRect(89,12,55,154));
-  			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_b);
+  			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_2);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_min));
 		break;
 		
 		case 1: // green
-  			colorpair_b.firstColor = GColorWhite;
-  			colorpair_b.secondColor = GColorWhite;
+  			colorpair_2.firstColor = GColorWhite;
+  			colorpair_2.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-  			colorpair_b.secondColor = GColorGreen;
+  			colorpair_2.secondColor = GColorGreen;
 		#endif	
   			effect_layer_col_min  = effect_layer_create(GRect(89,12,55,154));
-  			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_b);
+  			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_2);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_min));
 		break;
 
 		case 2: //orange
-  			colorpair_b.firstColor = GColorWhite;	
-  			colorpair_b.secondColor = GColorWhite;
+  			colorpair_2.firstColor = GColorWhite;	
+  			colorpair_2.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-  			colorpair_b.secondColor = GColorOrange;
+  			colorpair_2.secondColor = GColorOrange;
 		#endif	
   			effect_layer_col_min  = effect_layer_create(GRect(89,12,55,154));
-  			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_b);
+  			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_2);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_min));
 		break;
 
 		case 3: //GColorCyan 
-  			colorpair_b.firstColor = GColorWhite;	
-  			colorpair_b.secondColor = GColorWhite;
+  			colorpair_2.firstColor = GColorWhite;	
+  			colorpair_2.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-  			colorpair_b.secondColor = GColorCyan ;
+  			colorpair_2.secondColor = GColorCyan ;
 		#endif	
   			effect_layer_col_min  = effect_layer_create(GRect(89,12,55,154));
-  			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_b);
+  			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_2);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_min));
 		break;	
 		
 		case 4: //GColorYellow  
-  			colorpair_b.firstColor = GColorWhite;	
-  			colorpair_b.secondColor = GColorWhite;
+  			colorpair_2.firstColor = GColorWhite;	
+  			colorpair_2.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-  			colorpair_b.secondColor = GColorYellow  ;
+  			colorpair_2.secondColor = GColorYellow  ;
 		#endif	
   			effect_layer_col_min  = effect_layer_create(GRect(89,12,55,154));
-  			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_b);
+  			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_2);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_min));
 		break;
 		
 		case 5: //GColorSunsetOrange  
-  			colorpair_b.firstColor = GColorWhite;	
-  			colorpair_b.secondColor = GColorWhite;
+  			colorpair_2.firstColor = GColorWhite;	
+  			colorpair_2.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-  			colorpair_b.secondColor = GColorSunsetOrange  ;
+  			colorpair_2.secondColor = GColorSunsetOrange  ;
 		#endif	
   			effect_layer_col_min  = effect_layer_create(GRect(89,12,55,154));
-  			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_b);
+  			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_2);
   			layer_add_child(window_get_root_layer(window), effect_layer_get_layer(effect_layer_col_min));
 		break;
 
 		case 6: //GColorVividViolet  
-  			colorpair_b.firstColor = GColorWhite;	
-  			colorpair_b.secondColor = GColorWhite;
+  			colorpair_2.firstColor = GColorWhite;	
+  			colorpair_2.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-  			colorpair_b.secondColor = GColorVividViolet  ;
+  			colorpair_2.secondColor = GColorVividViolet  ;
 		#endif	
   			effect_layer_col_min  = effect_layer_create(GRect(89,12,55,154));
- 			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_b);
+ 			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_2);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_min));
 		break;
 
 		case 7: //GColorShockingPink   
-			colorpair_b.firstColor = GColorWhite;	
-			colorpair_b.secondColor = GColorWhite;
+			colorpair_2.firstColor = GColorWhite;	
+			colorpair_2.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-			colorpair_b.secondColor = GColorShockingPink   ;
+			colorpair_2.secondColor = GColorShockingPink   ;
 		#endif	
 			effect_layer_col_min  = effect_layer_create(GRect(89,12,55,154));
-			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_b);
+			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_2);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_min));
 		break;
 		
 		case 8: //GColorBrightGreen    
-			colorpair_b.firstColor = GColorWhite;	
-			colorpair_b.secondColor = GColorWhite;
+			colorpair_2.firstColor = GColorWhite;	
+			colorpair_2.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-			colorpair_b.secondColor = GColorBrightGreen    ;
+			colorpair_2.secondColor = GColorBrightGreen    ;
 		#endif	
 			effect_layer_col_min  = effect_layer_create(GRect(89,12,55,154));
-			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_b);
+			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_2);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_min));
 		break;
 		
 		case 9: //GColorElectricBlue    
-			colorpair_b.firstColor = GColorWhite;	
-			colorpair_b.secondColor = GColorWhite;
+			colorpair_2.firstColor = GColorWhite;	
+			colorpair_2.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-			colorpair_b.secondColor = GColorElectricBlue    ;
+			colorpair_2.secondColor = GColorElectricBlue    ;
 		#endif	
 			effect_layer_col_min  = effect_layer_create(GRect(89,12,55,154));
-			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_b);
+			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_2);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_min));
 		break;
 		
 		case 10: //GColorChromeYellow   
-			colorpair_b.firstColor = GColorWhite;	
-			colorpair_b.secondColor = GColorWhite;
+			colorpair_2.firstColor = GColorWhite;	
+			colorpair_2.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-			colorpair_b.secondColor = GColorChromeYellow   ;
+			colorpair_2.secondColor = GColorChromeYellow   ;
 		#endif	
 			effect_layer_col_min  = effect_layer_create(GRect(89,12,55,154));
-			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_b);
+			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_2);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_min));
 		break;
 		
 		case 11: //GColorDarkGray   
-			colorpair_b.firstColor = GColorWhite;	
-			colorpair_b.secondColor = GColorWhite;
+			colorpair_2.firstColor = GColorWhite;	
+			colorpair_2.secondColor = GColorWhite;
 		#ifdef PBL_COLOR		
-			colorpair_b.secondColor = GColorDarkGray   ;
+			colorpair_2.secondColor = GColorDarkGray   ;
 		#endif	
 			effect_layer_col_min  = effect_layer_create(GRect(89,12,55,154));
-			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_b);
+			effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_2);
 			layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_min));
 		break;
 		
     }    
 }
 
-void hidebatt (bool battbar) {
-	
-	  if (battbar) {
-		  	layer_set_hidden(bitmap_layer_get_layer(layer_batt_img), true);
-	  } else {
-		  	layer_set_hidden(bitmap_layer_get_layer(layer_batt_img), false);
-	  }
-}
-
 void set_invert_color(bool invert) {
   if (invert && effect_layer_inv == NULL) {
     // Add inverter layer
-    Layer *window_layer = window_get_root_layer(window);
+ //   Layer *window_layer = window_get_root_layer(window);
 
-    effect_layer_inv = effect_layer_create(GRect(0, 12, 144, 154));
+    effect_layer_inv = effect_layer_create(GRect(0, 12, 144, 158));
     layer_add_child(window_layer, effect_layer_get_layer(effect_layer_inv));
     effect_layer_add_effect(effect_layer_inv, effect_invert, NULL);
 	  
@@ -645,14 +636,24 @@ void set_invert_color(bool invert) {
   }
   // No action required
 }
+*/
+
+void hidebatt (bool battbar) {
+	
+	  if (battbar) {
+		  	layer_set_hidden(bitmap_layer_get_layer(layer_batt_img), true);
+	  } else {
+		  	layer_set_hidden(bitmap_layer_get_layer(layer_batt_img), false);
+	  }
+}
 
 void change_language() {
 
     switch (language) {
 		case 0: //english
 		
-			layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
-			layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
+		//	layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
+		//	layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
 			layer_set_hidden(bitmap_layer_get_layer(smonth_layer), true);
 			layer_set_hidden(bitmap_layer_get_layer(sday_name_layer), true);
 		    layer_set_hidden(bitmap_layer_get_layer(gmonth_layer), true);
@@ -672,8 +673,8 @@ void change_language() {
 		
 		case 1:  //german
 		
-			layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
-			layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
+		//	layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
+		//	layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
 			layer_set_hidden(bitmap_layer_get_layer(smonth_layer), true);
 			layer_set_hidden(bitmap_layer_get_layer(sday_name_layer), true);
 		    layer_set_hidden(bitmap_layer_get_layer(month_layer), true);
@@ -695,8 +696,8 @@ void change_language() {
 			
 		case 2:  //french		
 		
-			layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
-			layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
+	//		layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
+	//		layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
 			layer_set_hidden(bitmap_layer_get_layer(smonth_layer), true);
 			layer_set_hidden(bitmap_layer_get_layer(sday_name_layer), true);
 		    layer_set_hidden(bitmap_layer_get_layer(gmonth_layer), true);
@@ -717,8 +718,8 @@ void change_language() {
 			
 		case 3:  //italian
 		
-			layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
-			layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
+	//		layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
+	//		layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
 			layer_set_hidden(bitmap_layer_get_layer(smonth_layer), true);
 			layer_set_hidden(bitmap_layer_get_layer(sday_name_layer), true);
 		    layer_set_hidden(bitmap_layer_get_layer(gmonth_layer), true);
@@ -740,8 +741,8 @@ void change_language() {
 		
 		case 4:  //russian	
 		
-			layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
-			layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
+	//		layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
+	//		layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
 			layer_set_hidden(bitmap_layer_get_layer(smonth_layer), true);
 			layer_set_hidden(bitmap_layer_get_layer(sday_name_layer), true);
 			layer_set_hidden(bitmap_layer_get_layer(gmonth_layer), true);
@@ -762,8 +763,8 @@ void change_language() {
 		
 		case 5:  //chinese	
 
-			layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
-			layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
+		//	layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
+		//	layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
 			layer_set_hidden(bitmap_layer_get_layer(smonth_layer), true);
 			layer_set_hidden(bitmap_layer_get_layer(sday_name_layer), true);
 		    layer_set_hidden(bitmap_layer_get_layer(gmonth_layer), true);
@@ -781,7 +782,7 @@ void change_language() {
 			layer_set_hidden(bitmap_layer_get_layer(cday_name_layer), false);		
 		
 			break;
-
+/*
 		case 6:  //korean	
 		
 			layer_set_hidden(bitmap_layer_get_layer(smonth_layer), true);
@@ -803,11 +804,11 @@ void change_language() {
 			layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), false);		
 		
 			break;
+		*/
+		case 6:  //spanish	
 		
-		case 7:  //spanish	
-		
-			layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
-			layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
+	//		layer_set_hidden(bitmap_layer_get_layer(kmonth_layer), true);
+	//		layer_set_hidden(bitmap_layer_get_layer(kday_name_layer), true);
 			layer_set_hidden(bitmap_layer_get_layer(cmonth_layer), true);
 			layer_set_hidden(bitmap_layer_get_layer(cday_name_layer), true);
 		    layer_set_hidden(bitmap_layer_get_layer(gmonth_layer), true);
@@ -834,9 +835,9 @@ static void handle_tick(struct tm *tick_time, TimeUnits units_changed);
 static void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, const Tuple* old_tuple, void* context) {
   switch (key) {
     case BLINK_KEY:
-      blink = new_tuple->value->uint8;
-	  persist_write_bool(INVERT_KEY, blink);
-      tick_timer_service_unsubscribe();
+        blink = new_tuple->value->uint8;
+	    persist_write_bool(INVERT_KEY, blink);
+        tick_timer_service_unsubscribe();
       if(blink) {
         tick_timer_service_subscribe(SECOND_UNIT, handle_tick);
       }
@@ -847,25 +848,25 @@ static void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tup
     break;
 	  
     case INVERT_KEY:
-      invert = new_tuple->value->uint8 != 0;
-	  persist_write_bool(INVERT_KEY, invert);
-      set_invert_color(invert);
+    	invert = new_tuple->value->uint8 != 0;
+		persist_write_bool(INVERT_KEY, invert);
+    //	set_invert_color(invert);
     break;
 	  
 	case BLUETOOTHVIBE_KEY:
-      bluetoothvibe = new_tuple->value->uint8 != 0;
-	  persist_write_bool(BLUETOOTHVIBE_KEY, bluetoothvibe);
+     	bluetoothvibe = new_tuple->value->uint8 != 0;
+	persist_write_bool(BLUETOOTHVIBE_KEY, bluetoothvibe);
     break;      
 	  
     case HOURLYVIBE_KEY:
-      hourlyvibe = new_tuple->value->uint8 != 0;
-	  persist_write_bool(HOURLYVIBE_KEY, hourlyvibe);	  
+    	hourlyvibe = new_tuple->value->uint8 != 0;
+		persist_write_bool(HOURLYVIBE_KEY, hourlyvibe);	  
     break;	
 	  
     case BATTBAR_KEY:
-      battbar = new_tuple->value->uint8 != 0;
-	  persist_write_bool(BATTBAR_KEY, battbar);
-	  hidebatt (battbar);
+    	battbar = new_tuple->value->uint8 != 0;
+		persist_write_bool(BATTBAR_KEY, battbar);
+	    hidebatt (battbar);
 	break;
 	    
     case LANGUAGE_KEY:
@@ -874,16 +875,16 @@ static void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tup
 		change_language();
 	break;
 	  
-    case HOUR_COL_KEY:
-		hour_col = new_tuple->value->uint8;
-		persist_write_bool(HOUR_COL_KEY, hour_col);
-	    change_hour();
+    case HOUR_COLOUR_KEY:
+		hour_colour = new_tuple->value->uint8;
+		persist_write_bool(HOUR_COLOUR_KEY, hour_colour);
+	   // change_hour();
 	break;
 	  
-    case MIN_COL_KEY:
-		min_col = new_tuple->value->uint8;
-		persist_write_bool(MIN_COL_KEY, min_col);
-		change_min();
+    case MIN_COLOUR_KEY:
+		min_colour = new_tuple->value->uint8;
+		persist_write_bool(MIN_COLOUR_KEY, min_colour);
+	//	change_min();
 	break;
   }
 }
@@ -964,7 +965,7 @@ unsigned short get_display_hour(unsigned short hour) {
 static void update_days(struct tm *tick_time) {
 
   set_container_image(&sday_name_image, sday_name_layer, DAY_NAME_IMAGE_SPANISH_RESOURCE_IDS[tick_time->tm_wday], GPoint(73, 20));
-  set_container_image(&kday_name_image, kday_name_layer, DAY_NAME_IMAGE_KOREAN_RESOURCE_IDS[tick_time->tm_wday], GPoint(73, 20));
+ // set_container_image(&kday_name_image, kday_name_layer, DAY_NAME_IMAGE_KOREAN_RESOURCE_IDS[tick_time->tm_wday], GPoint(73, 20));
   set_container_image(&cday_name_image, cday_name_layer, DAY_NAME_IMAGE_CHINESE_RESOURCE_IDS[tick_time->tm_wday], GPoint(73, 20));
   set_container_image(&iday_name_image, iday_name_layer, DAY_NAME_IMAGE_ITALIAN_RESOURCE_IDS[tick_time->tm_wday], GPoint(73, 20));
   set_container_image(&fday_name_image, fday_name_layer, DAY_NAME_IMAGE_FRENCH_RESOURCE_IDS[tick_time->tm_wday], GPoint(72, 20));
@@ -985,7 +986,7 @@ static void update_months(struct tm *tick_time) {
   set_container_image(&fmonth_image, fmonth_layer, FMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(3, 20));
   set_container_image(&imonth_image, imonth_layer, IMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(3, 20));
   set_container_image(&cmonth_image, cmonth_layer, CMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(3, 20));
-  set_container_image(&kmonth_image, kmonth_layer, KMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(3, 20));
+//  set_container_image(&kmonth_image, kmonth_layer, KMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(3, 20));
   set_container_image(&smonth_image, smonth_layer, SMONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(3, 20));
   set_container_image(&month_image, month_layer, MONTH_IMAGE_RESOURCE_IDS[tick_time->tm_mon], GPoint(5, 20));
 }
@@ -1101,8 +1102,18 @@ static void init(void) {
   layer_add_child(window_layer, bitmap_layer_get_layer(separator_layer));   
 	
   // Create time and date layers
-  GRect dummy_frame = { {0, 0}, {0, 0} };
+  GRect dummy_frame = { {0, 0}, {0, 0} };	
 	
+ for (int i = 0; i < TOTAL_TIME_DIGITS; ++i) {
+    time_digits_layers[i] = bitmap_layer_create(dummy_frame);
+    layer_add_child(window_layer, bitmap_layer_get_layer(time_digits_layers[i]));
+  }
+	
+  for (int i = 0; i < TOTAL_DATE_DIGITS; ++i) {
+    date_digits_layers[i] = bitmap_layer_create(dummy_frame);
+    layer_add_child(window_layer, bitmap_layer_get_layer(date_digits_layers[i]));
+  }
+
    day_name_layer = bitmap_layer_create(dummy_frame);
    layer_add_child(window_layer, bitmap_layer_get_layer(day_name_layer));	
    month_layer = bitmap_layer_create(dummy_frame);
@@ -1132,27 +1143,19 @@ static void init(void) {
    layer_add_child(window_layer, bitmap_layer_get_layer(cday_name_layer));	
    cmonth_layer = bitmap_layer_create(dummy_frame);
    layer_add_child(window_layer, bitmap_layer_get_layer(cmonth_layer));
-		
+/*		
    kday_name_layer = bitmap_layer_create(dummy_frame);
    layer_add_child(window_layer, bitmap_layer_get_layer(kday_name_layer));	
    kmonth_layer = bitmap_layer_create(dummy_frame);
    layer_add_child(window_layer, bitmap_layer_get_layer(kmonth_layer));
-
+*/
    sday_name_layer = bitmap_layer_create(dummy_frame);
    layer_add_child(window_layer, bitmap_layer_get_layer(sday_name_layer));	
    smonth_layer = bitmap_layer_create(dummy_frame);
    layer_add_child(window_layer, bitmap_layer_get_layer(smonth_layer));
 
 
-  for (int i = 0; i < TOTAL_TIME_DIGITS; ++i) {
-    time_digits_layers[i] = bitmap_layer_create(dummy_frame);
-    layer_add_child(window_layer, bitmap_layer_get_layer(time_digits_layers[i]));
-  }
-	
-  for (int i = 0; i < TOTAL_DATE_DIGITS; ++i) {
-    date_digits_layers[i] = bitmap_layer_create(dummy_frame);
-    layer_add_child(window_layer, bitmap_layer_get_layer(date_digits_layers[i]));
-  }
+ 
  
   bluetooth_image_on = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BLUETOOTHON);
 #ifdef PBL_PLATFORM_BASALT
@@ -1176,19 +1179,19 @@ static void init(void) {
   bluetooth_layer = bitmap_layer_create(frame2);
   bitmap_layer_set_bitmap(bluetooth_layer, bluetooth_image);
   layer_add_child(window_layer, bitmap_layer_get_layer(bluetooth_layer));
-
-  colorpair_a.firstColor = GColorWhite;
-  colorpair_a.secondColor = GColorWhite;
+/*
+  colorpair_1.firstColor = GColorWhite;
+  colorpair_1.secondColor = GColorWhite;
   effect_layer_col_hr  = effect_layer_create(GRect(18,12,52,154));
-  effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_a);
+  effect_layer_add_effect(effect_layer_col_hr, effect_colorize, &colorpair_1);
   layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_hr));
 
-  colorpair_b.firstColor = GColorWhite;
-  colorpair_b.secondColor = GColorWhite;
+  colorpair_2.firstColor = GColorWhite;
+  colorpair_2.secondColor = GColorWhite;
   effect_layer_col_min  = effect_layer_create(GRect(89,12,55,154));
-  effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_b);
+  effect_layer_add_effect(effect_layer_col_min, effect_colorize, &colorpair_2);
   layer_add_child(window_layer, effect_layer_get_layer(effect_layer_col_min));
-	
+*/	
   toggle_bluetooth_icon(bluetooth_connection_service_peek());
   update_battery(battery_state_service_peek());
 
@@ -1199,8 +1202,8 @@ static void init(void) {
     TupletInteger(HOURLYVIBE_KEY, persist_read_bool(HOURLYVIBE_KEY)),
     TupletInteger(BATTBAR_KEY, persist_read_bool(BATTBAR_KEY)),
 	TupletInteger(LANGUAGE_KEY, persist_read_bool(LANGUAGE_KEY)),
-	TupletInteger(HOUR_COL_KEY, persist_read_bool(HOUR_COL_KEY)),
-	TupletInteger(MIN_COL_KEY, persist_read_bool(MIN_COL_KEY)),
+	TupletInteger(HOUR_COLOUR_KEY, persist_read_bool(HOUR_COLOUR_KEY)),
+	TupletInteger(MIN_COLOUR_KEY, persist_read_bool(MIN_COLOUR_KEY)),
   };
   
   app_sync_init(&sync, sync_buffer, sizeof(sync_buffer), initial_values, ARRAY_LENGTH(initial_values),
@@ -1262,9 +1265,9 @@ static void deinit(void) {
   bitmap_layer_destroy(cday_name_layer);
   gbitmap_destroy(cday_name_image);
 	
-  layer_remove_from_parent(bitmap_layer_get_layer(kday_name_layer));
-  bitmap_layer_destroy(kday_name_layer);
-  gbitmap_destroy(kday_name_image);
+//  layer_remove_from_parent(bitmap_layer_get_layer(kday_name_layer));
+//  bitmap_layer_destroy(kday_name_layer);
+//  gbitmap_destroy(kday_name_image);
 	
   layer_remove_from_parent(bitmap_layer_get_layer(sday_name_layer));
   bitmap_layer_destroy(sday_name_layer);
@@ -1294,14 +1297,14 @@ static void deinit(void) {
   bitmap_layer_destroy(cmonth_layer);
   gbitmap_destroy(cmonth_image);
 	
- layer_remove_from_parent(bitmap_layer_get_layer(kmonth_layer));
-  bitmap_layer_destroy(kmonth_layer);
-  gbitmap_destroy(kmonth_image);
+// layer_remove_from_parent(bitmap_layer_get_layer(kmonth_layer));
+//  bitmap_layer_destroy(kmonth_layer);
+//  gbitmap_destroy(kmonth_image);
 	
  layer_remove_from_parent(bitmap_layer_get_layer(smonth_layer));
   bitmap_layer_destroy(smonth_layer);
   gbitmap_destroy(smonth_image);
-  
+ /* 
   layer_remove_from_parent(effect_layer_get_layer(effect_layer_col_hr));
   effect_layer_destroy(effect_layer_col_hr);
   effect_layer_col_hr = NULL;
@@ -1309,7 +1312,7 @@ static void deinit(void) {
   layer_remove_from_parent(effect_layer_get_layer(effect_layer_col_min));
   effect_layer_destroy(effect_layer_col_min);
   effect_layer_col_min = NULL;
-	
+*/	
   layer_remove_from_parent(bitmap_layer_get_layer(layer_batt_img));
   bitmap_layer_destroy(layer_batt_img);
   layer_batt_img = NULL;
@@ -1337,7 +1340,19 @@ static void deinit(void) {
     gbitmap_destroy(time_digits_images[i]);
     bitmap_layer_destroy(time_digits_layers[i]);
   }
-
+/*
+  layer_remove_from_parent(effect_layer_get_layer(effect_layer_col_hr));
+  effect_layer_destroy(effect_layer_col_hr);
+  effect_layer_col_hr = NULL;
+	
+  layer_remove_from_parent(effect_layer_get_layer(effect_layer_col_min));
+  effect_layer_destroy(effect_layer_col_min);
+  effect_layer_col_min = NULL;
+	
+  if (effect_layer_inv != NULL) {
+	  effect_layer_destroy(effect_layer_inv);
+  }
+	*/
   layer_remove_from_parent(window_layer);
   layer_destroy(window_layer);
 	
