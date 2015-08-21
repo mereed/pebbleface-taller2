@@ -18,6 +18,12 @@
     "resources": {
         "media": [
             {
+                "file": "images/taller2-v23a copy menu.png",
+                "menuIcon": true,
+                "name": "IMAGE_MENU_ICON",
+                "type": "png"
+            },
+            {
                 "file": "images/t2-batt20a.png",
                 "name": "IMAGE_BATT_20",
                 "type": "png"
@@ -866,7 +872,7 @@
         "basalt"
     ],
     "uuid": "5ecda828-4e4d-4175-85c6-ce666a6ac644",
-    "versionLabel": "2.2",
+    "versionLabel": "2.3",
     "watchapp": {
         "watchface": true
     }
