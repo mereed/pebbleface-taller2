@@ -1,0 +1,981 @@
+{
+    "author": "chops",
+    "dependencies": {
+        "pebble-clay": "^1.0.1"
+    },
+    "keywords": [],
+    "name": "taller2",
+    "pebble": {
+        "capabilities": [
+            "configurable"
+        ],
+        "displayName": "taller2",
+        "enableMultiJS": true,
+        "messageKeys": [
+            "blink",
+            "invert",
+            "bluetoothvibe",
+            "hourlyvibe",
+            "language",
+            "battbar",
+            "hour_colour",
+            "min_colour"
+        ],
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "images/taller2-spanish-sep.png",
+                    "name": "IMAGE_SSEP",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/t2-batt30.png",
+                    "name": "IMAGE_BATT_30",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/t2-batt20.png",
+                    "name": "IMAGE_BATT_20",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/germanWEDNESDAY.png",
+                    "name": "IMAGE_DAY_NAME_MITTWOCH",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/germanTUESDAY.png",
+                    "name": "IMAGE_DAY_NAME_DIENSTAG",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/germanTHURSDAY.png",
+                    "name": "IMAGE_DAY_NAME_DONNERSTAG",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/germanSUNDAY.png",
+                    "name": "IMAGE_DAY_NAME_SONNTAG",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/germanSATURDAY.png",
+                    "name": "IMAGE_DAY_NAME_SAMSTAG",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/germanMONDAY.png",
+                    "name": "IMAGE_DAY_NAME_MONTAG",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/germanFRIDAY.png",
+                    "name": "IMAGE_DAY_NAME_FREITAG",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/battery_charge.png",
+                    "name": "IMAGE_BATT_CHARGING",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/menu_icon.png",
+                    "menuIcon": true,
+                    "name": "IMAGE_MENU_ICON",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-dec.png",
+                    "name": "IMAGE_SDEC",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-nov.png",
+                    "name": "IMAGE_SNOV",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-aug.png",
+                    "name": "IMAGE_SAUG",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-jul.png",
+                    "name": "IMAGE_SJUL",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-jun.png",
+                    "name": "IMAGE_SJUN",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-may.png",
+                    "name": "IMAGE_SMAY",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-apr.png",
+                    "name": "IMAGE_SAPR",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-mar.png",
+                    "name": "IMAGE_SMAR",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-feb.png",
+                    "name": "IMAGE_SFEB",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-sat.png",
+                    "name": "IMAGE_DAY_NAME_SP_SAT",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-fri.png",
+                    "name": "IMAGE_DAY_NAME_SP_FRI",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-thu.png",
+                    "name": "IMAGE_DAY_NAME_SP_THU",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-wed.png",
+                    "name": "IMAGE_DAY_NAME_SP_WED",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-mon.png",
+                    "name": "IMAGE_DAY_NAME_SP_MON",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2bton.png",
+                    "name": "IMAGE_BLUETOOTHON",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/t2-batt10.png",
+                    "name": "IMAGE_BATT_10",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/t2-batt50.png",
+                    "name": "IMAGE_BATT_50",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/t2-batt60.png",
+                    "name": "IMAGE_BATT_60",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/t2-batt70.png",
+                    "name": "IMAGE_BATT_70",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/t2-batt80.png",
+                    "name": "IMAGE_BATT_80",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/t2-batt90.png",
+                    "name": "IMAGE_BATT_90",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/GERMAN-JAN.png",
+                    "name": "IMAGE_GJAN",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/russian-sat.png",
+                    "name": "IMAGE_DAY_NAME_RUS_SAT",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/russian-fri.png",
+                    "name": "IMAGE_DAY_NAME_RUS_FRI",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/russian-thu.png",
+                    "name": "IMAGE_DAY_NAME_RUS_THU",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/russian-wed.png",
+                    "name": "IMAGE_DAY_NAME_RUS_WED",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/russian-tue.png",
+                    "name": "IMAGE_DAY_NAME_RUS_TUE",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/russian-mon.png",
+                    "name": "IMAGE_DAY_NAME_RUS_MON",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/russian-sun.png",
+                    "name": "IMAGE_DAY_NAME_RUS_SUN",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-december.png",
+                    "name": "IMAGE_DEC",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-november.png",
+                    "name": "IMAGE_NOV",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-october.png",
+                    "name": "IMAGE_OCT",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-september.png",
+                    "name": "IMAGE_SEP",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-august.png",
+                    "name": "IMAGE_AUG",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-july.png",
+                    "name": "IMAGE_JUL",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-june.png",
+                    "name": "IMAGE_JUN",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-may.png",
+                    "name": "IMAGE_MAY",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-april.png",
+                    "name": "IMAGE_APR",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-march.png",
+                    "name": "IMAGE_MAR",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-february.png",
+                    "name": "IMAGE_FEB",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-january.png",
+                    "name": "IMAGE_JAN",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-oct.png",
+                    "name": "IMAGE_COCT",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-sep.png",
+                    "name": "IMAGE_CSEP",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-aug.png",
+                    "name": "IMAGE_CAUG",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-jul.png",
+                    "name": "IMAGE_CJUL",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-jun.png",
+                    "name": "IMAGE_CJUN",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-may.png",
+                    "name": "IMAGE_CMAY",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-apr.png",
+                    "name": "IMAGE_CAPR",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-mar.png",
+                    "name": "IMAGE_CMAR",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-feb.png",
+                    "name": "IMAGE_CFEB",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-jan.png",
+                    "name": "IMAGE_CJAN",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/movie-rotated-0.png",
+                    "name": "IMAGE_DATENUM_0",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/movie-rotated-9.png",
+                    "name": "IMAGE_DATENUM_9",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/movie-rotated-8.png",
+                    "name": "IMAGE_DATENUM_8",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/movie-rotated-7.png",
+                    "name": "IMAGE_DATENUM_7",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/movie-rotated-6.png",
+                    "name": "IMAGE_DATENUM_6",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/movie-rotated-5.png",
+                    "name": "IMAGE_DATENUM_5",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/movie-rotated-3.png",
+                    "name": "IMAGE_DATENUM_3",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/movie-rotated-4.png",
+                    "name": "IMAGE_DATENUM_4",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/movie-rotated-1.png",
+                    "name": "IMAGE_DATENUM_1",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/movie-rotated-2.png",
+                    "name": "IMAGE_DATENUM_2",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-saturday.png",
+                    "name": "IMAGE_DAY_NAME_SAT",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-friday.png",
+                    "name": "IMAGE_DAY_NAME_FRI",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/num_9.png",
+                    "name": "IMAGE_NUM_9",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/num_8.png",
+                    "name": "IMAGE_NUM_8",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/num_7.png",
+                    "name": "IMAGE_NUM_7",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/num_6.png",
+                    "name": "IMAGE_NUM_6",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/num_5.png",
+                    "name": "IMAGE_NUM_5",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/num_4.png",
+                    "name": "IMAGE_NUM_4",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/num_3.png",
+                    "name": "IMAGE_NUM_3",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/num_2.png",
+                    "name": "IMAGE_NUM_2",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/num_1.png",
+                    "name": "IMAGE_NUM_1",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/num_0.png",
+                    "name": "IMAGE_NUM_0",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/separator.png",
+                    "name": "IMAGE_SEPARATOR",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-nov.png",
+                    "name": "IMAGE_CNOV",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-dec.png",
+                    "name": "IMAGE_CDEC",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-sat.png",
+                    "name": "IMAGE_DAY_NAME_CH_SAT",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-fri.png",
+                    "name": "IMAGE_DAY_NAME_CH_FRI",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-thu.png",
+                    "name": "IMAGE_DAY_NAME_CH_THU",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-wed.png",
+                    "name": "IMAGE_DAY_NAME_CH_WED",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-tue.png",
+                    "name": "IMAGE_DAY_NAME_CH_TUE",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-mon.png",
+                    "name": "IMAGE_DAY_NAME_CH_MON",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/chinese-t2-sun.png",
+                    "name": "IMAGE_DAY_NAME_CH_SUN",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2btoff.png",
+                    "name": "IMAGE_BLUETOOTHOFF",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/t2-batt40.png",
+                    "name": "IMAGE_BATT_40",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/t2-batt100.png",
+                    "name": "IMAGE_BATT_100",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-oct.png",
+                    "name": "IMAGE_SOCT",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-jan.png",
+                    "name": "IMAGE_SJAN",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-tue.png",
+                    "name": "IMAGE_DAY_NAME_SP_TUE",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/taller2-spanish-sun.png",
+                    "name": "IMAGE_DAY_NAME_SP_SUN",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-dec.png",
+                    "name": "IMAGE_IDEC",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-nov.png",
+                    "name": "IMAGE_INOV",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-oct.png",
+                    "name": "IMAGE_IOCT",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-sep.png",
+                    "name": "IMAGE_ISEP",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-aug.png",
+                    "name": "IMAGE_IAUG",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-jul.png",
+                    "name": "IMAGE_IJUL",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-jun.png",
+                    "name": "IMAGE_IJUN",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-may.png",
+                    "name": "IMAGE_IMAY",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-apr.png",
+                    "name": "IMAGE_IAPR",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-mar.png",
+                    "name": "IMAGE_IMAR",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-feb.png",
+                    "name": "IMAGE_IFEB",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-jan.png",
+                    "name": "IMAGE_IJAN",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-sat.png",
+                    "name": "IMAGE_DAY_NAME_IT_SAT",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-fri.png",
+                    "name": "IMAGE_DAY_NAME_IT_FRI",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-thu.png",
+                    "name": "IMAGE_DAY_NAME_IT_THU",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-wed.png",
+                    "name": "IMAGE_DAY_NAME_IT_WED",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-tue.png",
+                    "name": "IMAGE_DAY_NAME_IT_TUE",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-mon.png",
+                    "name": "IMAGE_DAY_NAME_IT_MON",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/it-t2-sun.png",
+                    "name": "IMAGE_DAY_NAME_IT_SUN",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-dec.png",
+                    "name": "IMAGE_FDEC",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-nov.png",
+                    "name": "IMAGE_FNOV",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-oct.png",
+                    "name": "IMAGE_FOCT",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-sep.png",
+                    "name": "IMAGE_FSEP",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-aug.png",
+                    "name": "IMAGE_FAUG",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-jul.png",
+                    "name": "IMAGE_FJUL",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-jun.png",
+                    "name": "IMAGE_FJUN",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-may.png",
+                    "name": "IMAGE_FMAY",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-apr.png",
+                    "name": "IMAGE_FAPR",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-mar.png",
+                    "name": "IMAGE_FMAR",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-feb.png",
+                    "name": "IMAGE_FFEB",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-jan.png",
+                    "name": "IMAGE_FJAN",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-mon.png",
+                    "name": "IMAGE_DAY_NAME_FR_MON",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-tue.png",
+                    "name": "IMAGE_DAY_NAME_FR_TUE",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-wed.png",
+                    "name": "IMAGE_DAY_NAME_FR_WED",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-thu.png",
+                    "name": "IMAGE_DAY_NAME_FR_THU",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-fri.png",
+                    "name": "IMAGE_DAY_NAME_FR_FRI",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-sat.png",
+                    "name": "IMAGE_DAY_NAME_FR_SAT",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/french-t2-sun.png",
+                    "name": "IMAGE_DAY_NAME_FR_SUN",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/russian-dec.png",
+                    "name": "IMAGE_RDEC",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/rusSian-mar.png",
+                    "name": "IMAGE_RMAR",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/russian-feb.png",
+                    "name": "IMAGE_RFEB",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/russian-jan.png",
+                    "name": "IMAGE_RJAN",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/russian-nov.png",
+                    "name": "IMAGE_RNOV",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/russian-oct.png",
+                    "name": "IMAGE_ROCT",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/Russian-sep.png",
+                    "name": "IMAGE_RSEP",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/russian-aug.png",
+                    "name": "IMAGE_RAUG",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/russian-jul.png",
+                    "name": "IMAGE_RJUL",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/german-dec.png",
+                    "name": "IMAGE_GDEC",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/german-nov.png",
+                    "name": "IMAGE_GNOV",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/german-oct.png",
+                    "name": "IMAGE_GOCT",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/german-sep.png",
+                    "name": "IMAGE_GSEP",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/german-aug.png",
+                    "name": "IMAGE_GAUG",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/german-jul.png",
+                    "name": "IMAGE_GJUL",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/german-jun.png",
+                    "name": "IMAGE_GJUN",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/GERMAN-MAY.png",
+                    "name": "IMAGE_GMAY",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/GERMAN-APR.png",
+                    "name": "IMAGE_GAPR",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/GERMAN-MAR.png",
+                    "name": "IMAGE_GMAR",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/GERMAN-FEB.png",
+                    "name": "IMAGE_GFEB",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/russian-jun.png",
+                    "name": "IMAGE_RJUN",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/russian-may.png",
+                    "name": "IMAGE_RMAY",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/russian-apr.png",
+                    "name": "IMAGE_RAPR",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-wednesday.png",
+                    "name": "IMAGE_DAY_NAME_WED",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-tuesday.png",
+                    "name": "IMAGE_DAY_NAME_TUE",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-monday.png",
+                    "name": "IMAGE_DAY_NAME_MON",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-thursday.png",
+                    "name": "IMAGE_DAY_NAME_THU",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/visitor-sunday.png",
+                    "name": "IMAGE_DAY_NAME_SUN",
+                    "type": "bitmap"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "aplite",
+            "basalt",
+            "diorite",
+            "emery"
+        ],
+        "uuid": "5ecda828-4e4d-4175-85c6-ce666a6ac644",
+        "watchapp": {
+            "watchface": true
+        }
+    },
+    "version": "4.0.0"
+}
